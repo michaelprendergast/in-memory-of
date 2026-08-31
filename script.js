@@ -3,7 +3,6 @@ function initIndexPage() {
 
   const gallery = document.getElementById("gallery");
   const emptyState = document.getElementById("empty-state");
-  const indexCount = document.getElementById("index-count");
   const typeNav = document.getElementById("type-nav");
   const locationNav = document.getElementById("location-nav");
   const filtersNav = document.getElementById("filters");
@@ -446,7 +445,6 @@ function initIndexPage() {
 
   function renderGallery() {
     gallery.innerHTML = "";
-    indexCount.textContent = "N\u00b0 " + pad(visiblePhotos.length);
 
     if (visiblePhotos.length === 0) {
       emptyState.hidden = false;
@@ -457,12 +455,11 @@ function initIndexPage() {
     const frag = document.createDocumentFragment();
 
     visiblePhotos.forEach((photo, i) => {
-      const size = ["lg", "md", "sm"].includes(photo.size) ? photo.size : "md";
       const isText = itemType(photo) === "text";
       const isAudio = itemType(photo) === "audio";
 
       const figure = document.createElement("figure");
-      figure.className = "tile tile--" + size;
+      figure.className = "tile";
 
       const indexTag = document.createElement("span");
       indexTag.className = "tile-index";

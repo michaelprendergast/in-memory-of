@@ -12,9 +12,6 @@
               "images/art/2020-untitled.jpg"
     title     short caption
     date      "YYYY-MM" or "YYYY-MM-DD"
-    size      "lg" | "md" | "sm" — controls the grid module width.
-              Mix these so the grid doesn't fall into a flat repeating
-              pattern; roughly lg = wide feature, md = standard, sm = compact.
     alt       plain description, for screen readers — not a caption
   Optional:
     location  e.g. "Philadelphia, PA"
@@ -37,11 +34,11 @@
               narrow screens), starting from the closed cover.
 
   --- Music (type: "audio") ---
-  Required: type, file (e.g. "audio/music/song.mp3"), title, date, size
+  Required: type, file (e.g. "audio/music/song.mp3"), title, date
   Optional: duration (e.g. "3:27" — shown next to the title), tags
 
   --- Writing (type: "text") ---
-  Required: type, date, size, format ("verse" keeps line/stanza breaks,
+  Required: type, date, format ("verse" keeps line/stanza breaks,
   "prose" reflows as one justified block), body (a template string —
   use backticks so line breaks are preserved for verse)
   Optional: title, tags
@@ -56,19 +53,19 @@
   real ones, they're just here as a copy-paste reference:
 
     { type: "photo", file: "images/art/2020-untitled.jpg", title: "Untitled",
-      date: "2020", size: "md", tags: ["painting"],
+      date: "2020", tags: ["painting"],
       alt: "Describe the piece for screen readers" },
 
     { type: "audio", file: "audio/music/song.mp3", title: "Song title",
-      date: "2020-05", size: "sm", duration: "3:27" },
+      date: "2020-05", duration: "3:27" },
 
-    { type: "text", date: "2020-05", size: "md", format: "prose",
+    { type: "text", date: "2020-05", format: "prose",
       title: "Untitled", body: `Body text goes here.` },
 */
 
 const PHOTOS = [
   { type: "photo", file: "images/bound-art-journal/page-001.jpg", title: "Bound Art Journal",
-    size: "lg", tags: ["journal", "sketchbook"],
+    tags: ["journal", "sketchbook"],
     alt: "Weathered brown leather journal cover with brass grommets and a knotted leather tie closure",
     pages: [
     { file: "images/bound-art-journal/page-001.jpg", alt: "Cover" },

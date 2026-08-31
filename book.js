@@ -7,8 +7,8 @@
   // player.js's widget, so it survives router.js's PJAX page swaps
   // untouched rather than needing re-initialization on every
   // navigation. window.SiteBook.open(item) is the only entry point;
-  // script.js and beta.js call it in place of their normal
-  // lightbox/detail-panel handling whenever an item has pages.
+  // script.js calls it in place of its normal lightbox handling
+  // whenever an item has pages.
 
   const overlay = document.createElement("div");
   overlay.id = "book-viewer";

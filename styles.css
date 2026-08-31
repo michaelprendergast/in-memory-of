@@ -19,10 +19,15 @@
   --badge-bg: rgba(18, 18, 18, 0.7);
   --badge-ink: #f4f4f4;
 
-  --font-display: 'EB Garamond', serif;
-  --font-body: 'IBM Plex Sans', sans-serif;
-  --font-meta: 'EB Garamond', serif;
-  --font-serif: Baskerville, 'Baskervville', 'Times New Roman', serif;
+  /* Playfair Display is reserved for display headings (the hero name,
+     archive years, the obituary heading) — everything else, including
+     long-form reading text, is Inter. Two families, not four: the
+     personal site's Garamond/Plex/Baskerville mix is one of the things
+     this palette is deliberately not reusing. */
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+  --font-meta: 'Inter', sans-serif;
+  --font-serif: 'Inter', sans-serif;
 
   --gap: 1px;
   --edge: clamp(16px, 4vw, 48px);
@@ -103,17 +108,36 @@ button {
   border-bottom-color: var(--accent);
 }
 
-.header-meta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  font-family: var(--font-meta);
-  font-size: 12px;
-  color: var(--muted);
-  text-align: right;
-  white-space: nowrap;
+/* ---------------------------------------------------------
+   Hero — homepage only, sits above the gallery's filter/search row.
+   Deliberately plain: name, dates, a one-line summary drawn straight
+   from the obituary, nothing else competing for attention.
+--------------------------------------------------------- */
+.hero {
+  padding: 64px var(--edge) 48px;
+  text-align: center;
+  border-bottom: 1px solid var(--hairline);
 }
-.index-count { color: var(--ink); }
+.hero-name {
+  margin: 0 0 0.15em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(32px, 5vw, 52px);
+  color: var(--ink);
+}
+.hero-dates {
+  margin: 0 0 0.6em;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--muted);
+}
+.hero-tagline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--muted);
+}
 
 /* ---------------------------------------------------------
    Type nav — top-level sections (All/Photography/Text/Audio).
@@ -279,11 +303,15 @@ button {
 .filters-toggle.is-active { color: var(--accent); }
 
 /* ---------------------------------------------------------
-   Gallery grid
+   Gallery grid — every tile the same size, unlike the personal
+   site's asymmetric lg/md/sm masonry. Column count follows from the
+   available width rather than a fixed count, so it settles on
+   whatever number of equal columns fits at a comfortable minimum
+   tile width.
 --------------------------------------------------------- */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(15, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   align-items: start;
   gap: var(--gap);
   background: var(--hairline);
@@ -296,10 +324,6 @@ button {
   padding-bottom: var(--gap);
 }
 
-.tile--lg { grid-column: span 7; }
-.tile--md { grid-column: span 5; }
-.tile--sm { grid-column: span 4; }
-
 .tile-button {
   position: relative;
   display: block;
@@ -308,6 +332,7 @@ button {
   padding: 0;
   overflow: hidden;
   background: var(--paper);
+  transition: box-shadow 0.25s ease;
 }
 
 .tile-button img {
@@ -323,29 +348,15 @@ button {
   filter: grayscale(0) brightness(1);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .tile-button:hover img, .tile-button:focus-visible img { transform: scale(1.015); }
-}
-
-/* Viewfinder frame — the signature device: an accent-colored
-   bracket that tightens into focus on hover/keyboard focus,
-   replacing the old page-wide construction grid. */
-.tile-button::after {
-  content: "";
-  position: absolute;
-  inset: 12px;
-  border: 1px solid var(--accent);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  pointer-events: none;
-}
-.tile-button:hover::after,
-.tile-button:focus-visible::after {
-  opacity: 1;
+/* A soft lift instead of a hard accent-colored frame -- gentler,
+   and deliberately not the personal site's bracket-corner "viewfinder"
+   hover treatment. */
+.tile-button:hover,
+.tile-button:focus-visible {
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .tile-button::after { transition: opacity 0.25s ease, inset 0.25s ease; }
-  .tile-button:hover::after, .tile-button:focus-visible::after { inset: 7px; }
+  .tile-button:hover img, .tile-button:focus-visible img { transform: scale(1.03); }
 }
 
 .tile-index {
@@ -512,14 +523,11 @@ button {
   color: var(--muted);
   text-transform: uppercase;
   text-align: right;
-  /* Wraps instead of the old nowrap now that tiles can be meaningfully
-     narrower than before -- the split homepage layout gives the
-     gallery column roughly half the width classic.html's full-bleed
-     grid does, so a long date/location line that fit fine there can
-     overflow a small tile here. min-width:0 overrides the flex
-     default (min-width:auto), which otherwise keeps a flex item from
-     shrinking below its unwrapped content width regardless of
-     white-space. */
+  /* Wraps rather than nowrap since a long date/location line can
+     exceed a tile's width at the grid's narrower column counts.
+     min-width:0 overrides the flex default (min-width:auto), which
+     otherwise keeps a flex item from shrinking below its unwrapped
+     content width regardless of white-space. */
   min-width: 0;
 }
 
@@ -551,20 +559,6 @@ button {
   color: var(--ink);
 }
 .about-content p { margin: 0 0 1.2em; }
-
-/* Deliberately understated — a way in for anyone curious, not a call
-   to action, per the request to keep it "out of the way." */
-.about-content p.about-beta-link {
-  margin-top: 2.4em;
-  font-family: var(--font-meta);
-  font-size: 12px;
-}
-.about-beta-link a {
-  color: var(--muted);
-  text-decoration: none;
-  border-bottom: 1px solid var(--hairline);
-}
-.about-beta-link a:hover { color: var(--ink); border-bottom-color: var(--accent); }
 
 /* ---------------------------------------------------------
    Obituary page — shares .about-main/.about-content's layout and
@@ -1204,9 +1198,7 @@ button {
 --------------------------------------------------------- */
 @media (max-width: 720px) {
   .gallery { grid-template-columns: 1fr; }
-  .tile--lg, .tile--md, .tile--sm { grid-column: span 1; }
   .site-header { flex-direction: column; align-items: flex-start; gap: 10px; }
-  .header-meta { flex-direction: row; align-items: baseline; gap: 10px; }
   .lightbox-hint { display: none; }
 
   /* The corner widget becomes an edge-to-edge bottom bar, defaulting

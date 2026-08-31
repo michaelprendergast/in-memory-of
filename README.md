@@ -11,37 +11,41 @@ point.
 
 ## Architecture
 
-`index.html` is a static shell with empty containers for the filter
-bar, gallery, and lightbox. All content lives in `photos.js`, a plain
-array of objects assigned to `window.PHOTOS`. `script.js` (and
-`beta.js` for the homepage's split layout) read that array on load and
-render everything client-side: grid tiles, tag filter chips, the
+`index.html` is a static shell: a hero (name, dates, a one-line
+summary), then empty containers for the filter bar, gallery, and
+lightbox. All content lives in `photos.js`, a plain array of objects
+assigned to `window.PHOTOS`. `script.js` reads that array on load and
+renders everything client-side: grid tiles, tag filter chips, the
 lightbox, and inline audio playback. There's no templating and no
 build step — editing `photos.js` and pushing is the entire publishing
 workflow.
 
-Visual design is Swiss/International Typographic Style: an asymmetric
-12-column grid, a restrained type system (EB Garamond for display,
-IBM Plex Sans for body, a serif for long-form text), and a single
-neutral accent used for one deliberate flourish — a bracket frame that
-tightens around a tile on hover, styled after a viewfinder. All colors
-and fonts are CSS custom properties at the top of `styles.css`, so the
-whole palette is one token block, not scattered through selectors.
+There used to be two parallel homepage layouts here, inherited from
+the personal-site template this was built from: a fixed-background
+split view, and a plain grid kept at `classic.html`. Both are gone —
+just one hero-led page now, since a filter-driven split view is more
+of a curator's tool than an onramp for family visiting the site.
+Typography is Playfair Display for headings (the hero name, the
+obituary heading, archive years) and Inter for everything else,
+including body text — deliberately not the Garamond/Plex/Baskerville
+mix the personal site uses, so the two don't read as the same site in
+different colors. The gallery grid is uniform-tile now too, not the
+personal site's asymmetric lg/md/sm masonry — easier to scan at a
+glance. All colors and fonts are CSS custom properties at the top of
+`styles.css`.
 
 ## Structure
 
 ```
-index.html      homepage — split fixed-background layout
-classic.html    the original full-width grid layout, kept at its own URL
+index.html      the whole site's homepage — hero, then the gallery
 about.html      a short note about the site
 obituary.html   the obituary
 archive.html    a flat chronological list ("Log") of every entry
 styles.css      all styling; design tokens (color, type) at the top
-beta.css        styling specific to the homepage's split layout
 photos.js       the content manifest — the only file edited routinely
-script.js       renders the classic grid + lightbox from photos.js
-beta.js         renders the homepage's split layout from photos.js
+script.js       renders the hero page + Log from photos.js
 archive.js      renders the Log page
+book.js         the page-turning viewer for "bound object" entries
 player.js       the persistent corner audio player
 router.js       lightweight client-side navigation between pages
 stats.js        the computed count/date-range line in the footer
@@ -115,15 +119,12 @@ and only commit the compressed copies into `images/`; that's how
 ## Publishing on GitHub Pages
 
 Deployed from `main`, root folder, via **Settings → Pages → Build and
-deployment → Source → Deploy from a branch**. Since this repo's name
-doesn't match the account name, it's served at:
-
-```
-https://<your-github-username>.github.io/in-memory-of
-```
-
-(rename the repo before or after publishing — GitHub Pages picks up
-the new path automatically once the repo is renamed and re-pushed).
+deployment → Source → Deploy from a branch**. The repo is public
+(required for GitHub Pages on the free plan) and served at the custom
+domain **zakkziegler.com**, set via the `CNAME` file in the repo root
+plus DNS records at the registrar (Namecheap): four `A` records for
+the bare domain pointed at GitHub's IPs, and a `CNAME` record for
+`www`. GitHub auto-issues the HTTPS certificate once DNS resolves.
 
 Every update is: resize the image (if adding artwork), add its entry
 to `photos.js`, commit, push. Deploys typically land within a minute
@@ -138,8 +139,5 @@ or two; a hard refresh clears any stale cached copy of the page.
   left as-is from the draft rather than guessing at the name.
 - `favicon.ico` — the original site's favicon wasn't carried over;
   drop a new one in the repo root and it'll pick up automatically.
-- A background image for the homepage's split layout, saved to
-  `images/bg/background.jpg` — until one's added, that half of the
-  homepage just shows the page background.
 - Actual artwork, music, and writing in `photos.js` (see "Adding
   content" above).
