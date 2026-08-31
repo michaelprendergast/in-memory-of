@@ -840,8 +840,49 @@ button {
   color: var(--muted-dim);
 }
 
+/* A scrollable strip of every page, for jumping straight to a section
+   of a long journal instead of stepping through it two pages at a
+   time. Sits just above the progress caption; scrolls independently
+   of page-turning (see book.js's touch-guard on the filmstrip). */
+.book-filmstrip {
+  position: absolute;
+  bottom: 46px;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 6px;
+  padding: 0 var(--edge);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.book-filmstrip-item {
+  flex: none;
+  width: 40px;
+  height: 54px;
+  padding: 0;
+  overflow: hidden;
+  background: var(--paper);
+  opacity: 0.5;
+  border: 2px solid transparent;
+  transition: opacity 0.15s ease, border-color 0.15s ease;
+}
+.book-filmstrip-item:hover { opacity: 0.85; }
+.book-filmstrip-item.is-active {
+  opacity: 1;
+  border-color: var(--accent);
+}
+.book-filmstrip-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 @media (max-width: 720px) {
   .book-page { max-width: 84vw; }
+  .book-filmstrip { bottom: 40px; gap: 4px; }
+  .book-filmstrip-item { width: 30px; height: 42px; }
 }
 
 /* ---------------------------------------------------------

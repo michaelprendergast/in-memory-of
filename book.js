@@ -29,7 +29,8 @@
     "</div>" +
     "</div>" +
     '<button class="book-nav book-next" type="button" aria-label="Next page">&#8594;</button>' +
-    '<p class="book-progress" aria-live="polite"></p>';
+    '<p class="book-progress" aria-live="polite"></p>' +
+    '<div class="book-filmstrip" aria-label="Jump to a page"></div>';
   document.body.appendChild(overlay);
 
   const stage = overlay.querySelector(".book-stage");
@@ -42,6 +43,7 @@
   const prevBtn = overlay.querySelector(".book-prev");
   const nextBtn = overlay.querySelector(".book-next");
   const progress = overlay.querySelector(".book-progress");
+  const filmstrip = overlay.querySelector(".book-filmstrip");
 
   const MOBILE_QUERY = window.matchMedia("(max-width: 720px)");
 
@@ -61,6 +63,53 @@
   }
   function canStepBackward() {
     return pos > 0;
+  }
+
+  // Jumping in from the filmstrip can land on either half of a spread
+  // (or on the cover) -- snap to whichever spread actually contains
+  // that page, same pairing the normal step-by-two navigation uses,
+  // so the target page always ends up visible rather than landing on
+  // the page after it.
+  function jumpTo(index) {
+    const pages = pagesOf(item);
+    if (index <= 0) {
+      pos = 0;
+    } else if (MOBILE_QUERY.matches) {
+      pos = Math.min(index, pages.length - 1);
+    } else {
+      pos = Math.max(1, index % 2 === 0 ? index - 1 : index);
+    }
+    render();
+  }
+
+  function buildFilmstrip(pages) {
+    filmstrip.innerHTML = "";
+    pages.forEach((p, i) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "book-filmstrip-item";
+      btn.setAttribute("aria-label", p.alt || "Page " + i);
+      const img = document.createElement("img");
+      img.src = p.file;
+      img.alt = "";
+      img.loading = "lazy";
+      btn.appendChild(img);
+      btn.addEventListener("click", () => jumpTo(i));
+      filmstrip.appendChild(btn);
+    });
+  }
+
+  function updateFilmstrip() {
+    const pages = pagesOf(item);
+    const mobile = MOBILE_QUERY.matches;
+    const activeIndices =
+      pos === 0 ? [0] : mobile ? [pos] : [pos, pos + 1].filter((i) => i < pages.length);
+    const buttons = filmstrip.children;
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].classList.toggle("is-active", activeIndices.includes(i));
+    }
+    const active = filmstrip.querySelector(".is-active");
+    if (active) active.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }
 
   function render() {
@@ -93,6 +142,7 @@
 
     prevBtn.disabled = !canStepBackward();
     nextBtn.disabled = !canStepForward();
+    updateFilmstrip();
   }
 
   function stepForward() {
@@ -123,6 +173,7 @@
     item = it;
     pos = 0;
     lastFocused = document.activeElement;
+    buildFilmstrip(pagesOf(it));
     render();
     overlay.hidden = false;
     overlay.setAttribute("aria-hidden", "false");
@@ -153,9 +204,15 @@
     if (e.target === overlay) close();
   });
 
+  // Swiping to scroll the filmstrip itself shouldn't also be read as a
+  // page-turn gesture on the stage behind it.
   overlay.addEventListener(
     "touchstart",
     (e) => {
+      if (e.target.closest(".book-filmstrip")) {
+        touchStartX = null;
+        return;
+      }
       touchStartX = e.changedTouches[0].clientX;
     },
     { passive: true }
