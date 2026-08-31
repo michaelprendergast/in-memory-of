@@ -1,6 +1,6 @@
 # in-memory-of
 
-A memorial site for [Cousin's Name] — his artwork, music, and writing,
+A memorial site for Zakk Ziegler — his artwork, music, and writing,
 kept in one place for family and friends. Built as a static site with
 no framework and no build step, based on the same codebase as
 [mprendergast.github.io](https://github.com/michaelprendergast/michaelprendergast.github.io).
@@ -118,11 +118,11 @@ or two; a hard refresh clears any stale cached copy of the page.
 
 ## What still needs filling in
 
-- The cousin's name and dates, in place of every `[Cousin's Name]` /
-  `[Cousin's Full Name]` placeholder — in `index.html`, `about.html`,
-  `obituary.html`, `archive.html`, and `classic.html`.
-- The obituary text itself, in `obituary.html`.
-- A short personal note on the About page (`about.html`).
+- A short personal note on the About page (`about.html`) — the name
+  and obituary text are already in place, but the "who's keeping this
+  site" paragraph is still a placeholder.
+- The bracketed `[rec center?]` in the obituary (`obituary.html`) —
+  left as-is from the draft rather than guessing at the name.
 - `favicon.ico` — the original site's favicon wasn't carried over;
   drop a new one in the repo root and it'll pick up automatically.
 - A background image for the homepage's split layout, saved to
