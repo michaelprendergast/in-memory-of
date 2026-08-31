@@ -13,7 +13,7 @@
   // #view region for some reason, it just falls back to a real
   // navigation rather than breaking.
 
-  const ROUTES = new Set(["", "index.html", "about.html", "obituary.html", "archive.html"]);
+  const ROUTES = new Set(["", "index.html", "about.html", "obituary.html"]);
 
   function pageName(pathname) {
     return pathname.split("/").pop() || "index.html";
@@ -29,9 +29,7 @@
 
   function runPageInit(pathname) {
     const page = pageName(pathname);
-    if (page === "archive.html") {
-      if (window.initArchivePage) window.initArchivePage();
-    } else if (page === "about.html" || page === "obituary.html") {
+    if (page === "about.html" || page === "obituary.html") {
       // static content, nothing to initialize
     } else {
       // "" and "index.html" -- the hero + gallery homepage

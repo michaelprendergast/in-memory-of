@@ -26,7 +26,7 @@ split view, and a plain grid kept at `classic.html`. Both are gone —
 just one hero-led page now, since a filter-driven split view is more
 of a curator's tool than an onramp for family visiting the site.
 Typography is Playfair Display for headings (the hero name, the
-obituary heading, archive years) and Inter for everything else,
+obituary heading) and Inter for everything else,
 including body text — deliberately not the Garamond/Plex/Baskerville
 mix the personal site uses, so the two don't read as the same site in
 different colors. The gallery grid is uniform-tile now too, not the
@@ -40,11 +40,9 @@ glance. All colors and fonts are CSS custom properties at the top of
 index.html      the whole site's homepage — hero, then the gallery
 about.html      a short note about the site
 obituary.html   the obituary
-archive.html    a flat chronological list ("Log") of every entry
 styles.css      all styling; design tokens (color, type) at the top
 photos.js       the content manifest — the only file edited routinely
-script.js       renders the hero page + Log from photos.js
-archive.js      renders the Log page
+script.js       renders the hero page + gallery from photos.js
 book.js         the page-turning viewer for "bound object" entries
 player.js       the persistent corner audio player
 router.js       lightweight client-side navigation between pages
