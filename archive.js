@@ -8,7 +8,7 @@ function initArchivePage() {
     (p) => !p.hidden
   );
 
-  const TYPE_LABELS = { photo: "Photo", text: "Text", audio: "Audio", ceramics: "Ceramics" };
+  const TYPE_LABELS = { photo: "Photo", text: "Text", audio: "Audio", photography: "Photography" };
 
   function yearOf(item) {
     const m = /^(\d{4})/.exec(item.date || "");

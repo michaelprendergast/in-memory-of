@@ -110,8 +110,8 @@ button {
 
 /* ---------------------------------------------------------
    Hero — homepage only, sits above the gallery's filter/search row.
-   Deliberately plain: name, dates, a one-line summary drawn straight
-   from the obituary, nothing else competing for attention.
+   Deliberately plain: just his name and dates, nothing else
+   competing for attention.
 --------------------------------------------------------- */
 .hero {
   padding: 64px var(--edge) 48px;
@@ -126,16 +126,9 @@ button {
   color: var(--ink);
 }
 .hero-dates {
-  margin: 0 0 0.6em;
+  margin: 0;
   font-family: var(--font-body);
   font-size: 14px;
-  color: var(--muted);
-}
-.hero-tagline {
-  margin: 0;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 17px;
   color: var(--muted);
 }
 

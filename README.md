@@ -62,9 +62,10 @@ Everything — artwork, music, and writing — is one entry in the
 examples for each type are in the comment at the top of that file.
 Broad strokes:
 
-- **Artwork** (`type: "photo"` for anything image-based, `"ceramics"`
-  for physical/sculptural work): resize and compress the image first
-  (see below), save it into `images/`, and add an entry pointing at it.
+- **Artwork** (`type: "photo"`) or **Photography** (`type: "photography"`)
+  — same fields either way, just different tabs: resize and compress
+  the image first (see below), save it into `images/`, and add an
+  entry pointing at it.
 - **Music** (`type: "audio"`): save the file into `audio/music/` and
   add an entry with its `duration`.
 - **Writing** (`type: "text"`): no file needed — the text itself is

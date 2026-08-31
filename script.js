@@ -12,9 +12,9 @@ function initIndexPage() {
   // Fixed top-level sections, shown in this order regardless of which
   // ones have entries yet — sections with nothing in them just show
   // the existing empty state rather than being hidden from the nav.
-  // "All" is last and never the default — the site opens on Photography.
-  const TYPES = ["photo", "text", "audio", "ceramics", "all"];
-  const TYPE_LABELS = { all: "All", photo: "Artwork", text: "Text", audio: "Audio", ceramics: "Ceramics" };
+  // "All" is last and never the default — the site opens on Artwork.
+  const TYPES = ["photo", "text", "audio", "photography", "all"];
+  const TYPE_LABELS = { all: "All", photo: "Artwork", text: "Text", audio: "Audio", photography: "Photography" };
   const DEFAULT_TYPE = "photo";
 
   const lightbox = document.getElementById("lightbox");
@@ -246,12 +246,12 @@ function initIndexPage() {
 
   /* ---------------- Tag filter dropdown arrow ----------------
      One arrow ever renders, attached to whichever nav item currently
-     "owns" the tag row below it: the active location chip in
-     Photography (since that row already narrows the tag set), or the
-     active type chip itself for sections with no location row
-     (Text/Audio/Ceramics). Collapsed by default; picks up an accent
-     tint whenever a non-"all" tag is applied, even while collapsed,
-     so an active filter is never silently hidden. */
+     "owns" the tag row below it: the active location chip in Artwork
+     (since that row already narrows the tag set), or the active type
+     chip itself for sections with no location row (Text/Audio/
+     Photography). Collapsed by default; picks up an accent tint
+     whenever a non-"all" tag is applied, even while collapsed, so an
+     active filter is never silently hidden. */
   function makeFiltersToggle() {
     const btn = document.createElement("button");
     btn.type = "button";

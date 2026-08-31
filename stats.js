@@ -15,9 +15,9 @@
     photo: ["image", "images"],
     text: ["text file", "text files"],
     audio: ["audio file", "audio files"],
-    ceramics: ["ceramic piece", "ceramic pieces"],
+    photography: ["photograph", "photographs"],
   };
-  const ORDER = ["photo", "text", "audio", "ceramics"];
+  const ORDER = ["photo", "text", "audio", "photography"];
 
   const counts = {};
   items.forEach((p) => {

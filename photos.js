@@ -3,11 +3,12 @@
   writing all live in this one array, newest first. Every entry needs
   a `type`.
 
-  --- Artwork (type: "photo" or "ceramics") ---
+  --- Artwork (type: "photo") / Photography (type: "photography") ---
+  Same fields either way — "photo" is for the artwork itself (drawings,
+  paintings, photographs of pieces), "photography" is for photos he
+  took. Each gets its own tab above the gallery.
   Required:
-    type      "photo" for anything image-based (drawings, paintings,
-              photographs of pieces), "ceramics" for physical/sculptural
-              work — each gets its own tab above the gallery.
+    type      "photo" or "photography" (see above)
     file      path to the image, relative to the site root, e.g.
               "images/art/2020-untitled.jpg"
     title     short caption
