@@ -321,17 +321,20 @@ button {
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: 3 / 2;
   padding: 0;
   overflow: hidden;
   background: var(--paper);
   transition: box-shadow 0.25s ease;
 }
 
+/* No fixed aspect-ratio box, no object-fit crop -- the tile is as
+   tall as the image needs to be at the grid column's width, so a
+   painting's full composition always shows in the grid, not just
+   whatever a fixed frame happened to crop into view. */
 .tile-button img {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   filter: grayscale(0.25) brightness(0.92);
   transition: filter 0.3s ease, transform 0.5s ease;
 }
