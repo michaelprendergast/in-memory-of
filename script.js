@@ -52,6 +52,13 @@ function initIndexPage() {
     return p.type || "photo";
   }
 
+  // A "bound object" -- a photo-type entry with an ordered `pages`
+  // array (see photos.js's field reference) -- opens book.js's
+  // dedicated page-turning viewer instead of the normal lightbox.
+  function isBookItem(p) {
+    return Array.isArray(p.pages) && p.pages.length > 0;
+  }
+
   // Verse: literal line breaks + blank-line stanza breaks, no special
   // per-poem indentation or effects. Prose: a single justified block,
   // reflowing normally. This is a deliberately simplified, consistent
@@ -227,7 +234,9 @@ function initIndexPage() {
   }
 
   function metaLine(photo) {
-    return [photo.date, photo.location].filter(Boolean).join(" \u00b7 ");
+    const parts = [photo.date, photo.location].filter(Boolean);
+    if (isBookItem(photo)) parts.push(photo.pages.length - 1 + " pages");
+    return parts.join(" \u00b7 ");
   }
 
   function specLine(photo) {
@@ -465,8 +474,18 @@ function initIndexPage() {
         const button = document.createElement("button");
         button.className = "tile-button" + (isText ? " tile-button--text" : "");
         button.type = "button";
-        button.setAttribute("aria-label", "Open " + (photo.title || "photograph") + " full size");
-        button.addEventListener("click", () => openLightbox(i));
+        const isBook = isBookItem(photo);
+        button.setAttribute(
+          "aria-label",
+          isBook ? "Open " + (photo.title || "bound journal") : "Open " + (photo.title || "photograph") + " full size"
+        );
+        button.addEventListener("click", () => {
+          if (isBook) {
+            if (window.SiteBook) window.SiteBook.open(photo);
+          } else {
+            openLightbox(i);
+          }
+        });
 
         if (isText) {
           const preview = document.createElement("div");
@@ -488,6 +507,12 @@ function initIndexPage() {
           img.alt = photo.alt || "";
           img.loading = "lazy";
           button.appendChild(img);
+          if (isBook) {
+            const badge = document.createElement("span");
+            badge.className = "tile-book-badge";
+            badge.textContent = "Journal";
+            button.appendChild(badge);
+          }
         }
         button.appendChild(indexTag);
         figure.appendChild(button);
@@ -656,7 +681,12 @@ function initIndexPage() {
   shuffleBtn.addEventListener("click", () => {
     if (!visiblePhotos.length) return;
     const i = Math.floor(Math.random() * visiblePhotos.length);
-    openLightbox(i);
+    const photo = visiblePhotos[i];
+    if (isBookItem(photo)) {
+      if (window.SiteBook) window.SiteBook.open(photo);
+    } else {
+      openLightbox(i);
+    }
   });
 
   /* ---------------- URL state ---------------- */
@@ -730,7 +760,14 @@ function initIndexPage() {
 
   if (pendingOpenIndex !== null) {
     const idx = visiblePhotos.indexOf(allPhotos[pendingOpenIndex]);
-    if (idx !== -1) openLightbox(idx);
+    if (idx !== -1) {
+      const photo = visiblePhotos[idx];
+      if (isBookItem(photo)) {
+        if (window.SiteBook) window.SiteBook.open(photo);
+      } else {
+        openLightbox(idx);
+      }
+    }
   }
 }
 

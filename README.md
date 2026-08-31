@@ -65,6 +65,12 @@ Broad strokes:
   add an entry with its `duration`.
 - **Writing** (`type: "text"`): no file needed — the text itself is
   the `body` field, written directly in the manifest.
+- **Bound objects** (a sketchbook, a journal — meant to be read as a
+  sequence rather than browsed as separate photos): still one `photo`
+  entry, plus a `pages` array (cover first). Renders as a single tile
+  that opens a page-turning viewer (`book.js`) instead of the usual
+  lightbox. See `images/bound-art-journal/` for a worked example, and
+  `originals/` below for how its 125 source photos were handled.
 
 `tags` is optional and free-form on every type — every unique tag used
 anywhere automatically becomes a filter chip, so tagging consistently
@@ -98,6 +104,13 @@ done
 `-strip` drops EXIF/location metadata from the copy. Without
 ImageMagick, [squoosh.app](https://squoosh.app) does the same thing in
 the browser, one image at a time, with a size-vs-quality slider.
+
+For a large batch (a whole photographed journal or sketchbook, say),
+the target is lower — closer to 300–600 KB each — since it's many
+secondary pages rather than a handful of headline pieces. Keep the raw
+originals somewhere under `originals/` (gitignored, never committed)
+and only commit the compressed copies into `images/`; that's how
+`images/bound-art-journal/` was built from its 125 source photos.
 
 ## Publishing on GitHub Pages
 

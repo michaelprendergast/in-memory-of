@@ -2,6 +2,7 @@
 # hard limit is 100MB/file) and not needed once a compressed web
 # version has been generated from them.
 images/bg/*.tif
+originals/
 
 # Word's own lock/temp files, created while a .docx is open.
 ~$*

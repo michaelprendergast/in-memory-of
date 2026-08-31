@@ -360,6 +360,21 @@ button {
   letter-spacing: 0.02em;
 }
 
+/* Marks a "bound object" tile (book.js) -- opposite corner from the
+   index badge, same visual language. */
+.tile-book-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--badge-ink);
+  background: var(--badge-bg);
+  padding: 3px 7px;
+}
+
 /* Text-post tiles: sized to their own content rather than the fixed
    3:2 photo frame, so a short poem gets a compact box instead of a
    mostly-empty image-shaped one. Longer poems are capped and faded
@@ -804,6 +819,100 @@ button {
   width: 64px;
   accent-color: var(--accent);
   cursor: pointer;
+}
+
+/* ---------------------------------------------------------
+   Book viewer (book.js) — a dedicated page-turning overlay for "bound
+   object" entries, built and appended to <body> by book.js itself
+   (same pattern as the persistent audio player below), so it survives
+   router.js's page swaps. Visually modeled on the lightbox: same fixed
+   dark scrim, same corner close/nav button placement -- but the stage
+   holds either the closed cover alone or a two-page spread instead of
+   a single image.
+--------------------------------------------------------- */
+.book-viewer {
+  position: fixed;
+  inset: 0;
+  background: var(--scrim);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: var(--edge);
+}
+.book-viewer:not([hidden]) { display: flex; }
+
+.book-stage {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: min(1200px, 100%);
+  max-height: 76vh;
+}
+
+.book-cover {
+  padding: 0;
+  max-height: 76vh;
+}
+.book-cover[hidden] { display: none; }
+.book-cover img {
+  display: block;
+  max-height: 76vh;
+  max-width: 100%;
+  width: auto;
+  object-fit: contain;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.book-spread[hidden] { display: none; }
+.book-spread {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+}
+
+.book-page {
+  max-height: 76vh;
+  max-width: 44vw;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+.book-page-right[hidden] { display: none; }
+
+.book-close, .book-nav {
+  position: absolute;
+  color: var(--badge-ink);
+  font-size: 18px;
+  padding: 12px;
+  z-index: 1;
+}
+.book-close { top: 18px; right: var(--edge); }
+.book-prev { left: var(--edge); }
+.book-next { right: var(--edge); }
+.book-nav { top: 50%; transform: translateY(-50%); font-size: 22px; }
+.book-nav[disabled] { opacity: 0.25; cursor: default; }
+
+.book-progress {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-dim);
+}
+
+@media (max-width: 720px) {
+  .book-page { max-width: 84vw; }
 }
 
 /* ---------------------------------------------------------

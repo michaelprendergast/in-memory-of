@@ -87,6 +87,13 @@ function initBetaPage() {
     return p.type || "photo";
   }
 
+  // A "bound object" -- a photo-type entry with an ordered `pages`
+  // array (see photos.js's field reference) -- opens book.js's
+  // dedicated page-turning viewer instead of the detail panel.
+  function isBookItem(p) {
+    return Array.isArray(p.pages) && p.pages.length > 0;
+  }
+
   function pad(n) {
     return String(n).padStart(2, "0");
   }
@@ -98,7 +105,9 @@ function initBetaPage() {
   }
 
   function metaLine(photo) {
-    return [photo.date, photo.location].filter(Boolean).join(" · ");
+    const parts = [photo.date, photo.location].filter(Boolean);
+    if (isBookItem(photo)) parts.push(photo.pages.length - 1 + " pages");
+    return parts.join(" · ");
   }
 
   function specLine(photo) {
@@ -487,8 +496,18 @@ function initBetaPage() {
         const button = document.createElement("button");
         button.className = "tile-button" + (isText ? " tile-button--text" : "");
         button.type = "button";
-        button.setAttribute("aria-label", "View " + (photo.title || (isText ? "text" : "photograph")));
-        button.addEventListener("click", () => showDetail(i));
+        const isBook = isBookItem(photo);
+        button.setAttribute(
+          "aria-label",
+          "View " + (photo.title || (isBook ? "bound journal" : isText ? "text" : "photograph"))
+        );
+        button.addEventListener("click", () => {
+          if (isBook) {
+            if (window.SiteBook) window.SiteBook.open(photo);
+          } else {
+            showDetail(i);
+          }
+        });
 
         if (isText) {
           const preview = document.createElement("div");
@@ -510,6 +529,12 @@ function initBetaPage() {
           img.alt = photo.alt || "";
           img.loading = "lazy";
           button.appendChild(img);
+          if (isBook) {
+            const badge = document.createElement("span");
+            badge.className = "tile-book-badge";
+            badge.textContent = "Journal";
+            button.appendChild(badge);
+          }
         }
         button.appendChild(indexTag);
         // Identity check rather than an index: the left panel can be
@@ -665,6 +690,10 @@ function initBetaPage() {
       if (tile) tile.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
+    if (isBookItem(item)) {
+      if (window.SiteBook) window.SiteBook.open(item);
+      return;
+    }
     showDetail(i);
   }
 
@@ -779,7 +808,13 @@ function initBetaPage() {
     // autoplaying from a link would be blocked by the browser anyway,
     // so a linked audio item just lands on its scrolled-to tile rather
     // than trying to open or play anything.
-    if (idx !== -1 && itemType(pendingItem) !== "audio") showDetail(idx);
+    if (idx !== -1 && itemType(pendingItem) !== "audio") {
+      if (isBookItem(pendingItem)) {
+        if (window.SiteBook) window.SiteBook.open(pendingItem);
+      } else {
+        showDetail(idx);
+      }
+    }
   }
 }
 
