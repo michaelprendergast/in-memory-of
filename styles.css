@@ -1,0 +1,1122 @@
+/* ---------------------------------------------------------
+   Tokens — a single fixed white/greyscale palette. No theme switching:
+   this is deliberately the one presentation the site has, in keeping
+   with a memorial site's quieter, respectful tone. --scrim and the
+   --badge-* pair stay near-black regardless: the lightbox stays a
+   dark viewing environment, and the tile-index badge sits on top of
+   arbitrary artwork so it needs guaranteed contrast.
+--------------------------------------------------------- */
+:root {
+  --paper: #ffffff;
+  --ink: #1c1c1c;
+  --grid-line: rgba(0, 0, 0, 0.08);
+  --accent: #545454;
+  --muted: #767676;
+  --muted-dim: #a3a3a3;
+  --hairline: rgba(0, 0, 0, 0.14);
+  --overlay: rgba(0, 0, 0, 0.05);
+  --scrim: rgba(18, 18, 18, 0.97);
+  --badge-bg: rgba(18, 18, 18, 0.7);
+  --badge-ink: #f4f4f4;
+
+  --font-display: 'EB Garamond', serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-meta: 'EB Garamond', serif;
+  --font-serif: Baskerville, 'Baskervville', 'Times New Roman', serif;
+
+  --gap: 1px;
+  --edge: clamp(16px, 4vw, 48px);
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+img[hidden] { display: none; }
+
+button {
+  font-family: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------
+   Header
+--------------------------------------------------------- */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  padding: 22px var(--edge);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.site-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.site-nav {
+  display: flex;
+  gap: 16px;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.site-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 2px;
+}
+.site-nav a:hover { color: var(--ink); }
+.site-nav a[aria-current="page"] {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
+.header-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: var(--font-meta);
+  font-size: 12px;
+  color: var(--muted);
+  text-align: right;
+  white-space: nowrap;
+}
+.index-count { color: var(--ink); }
+
+/* ---------------------------------------------------------
+   Type nav — top-level sections (All/Photography/Text/Audio).
+   Always visible, bolder and larger than the tag chips beneath
+   it. Selecting "All" merges every section with no sub-tag row;
+   selecting a specific section reveals its own tag row below,
+   set apart with a distinct background (see .filters).
+--------------------------------------------------------- */
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px var(--edge);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.type-nav[hidden] { display: none; }
+.type-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.nav-utility {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-input {
+  font-family: var(--font-meta);
+  font-size: 12px;
+  color: var(--ink);
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--hairline);
+  padding: 4px 2px;
+  width: 140px;
+}
+.search-input:focus { outline: none; border-bottom-color: var(--accent); }
+.search-input::placeholder { color: var(--muted); }
+.search-input::-webkit-search-cancel-button { -webkit-appearance: none; }
+
+.shuffle-btn {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  border: 1px solid var(--hairline);
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+.shuffle-btn:hover { color: var(--ink); border-color: var(--accent); }
+
+.type-chip {
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.type-chip:hover { color: var(--ink); }
+.type-chip.is-active {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
+/* ---------------------------------------------------------
+   Location nav — a middle tier, Photography-only: shares the tag
+   row's darker "nested" background below it (no border between the
+   two, so they read as one continuous panel), but sits a size step
+   up in the type scale to mark it as the coarser of the two filters.
+--------------------------------------------------------- */
+.location-nav[hidden] { display: none; }
+.location-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 14px var(--edge) 0;
+  background: rgba(0, 0, 0, 0.14);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 13px;
+}
+/* No bottom padding above: when .filters is expanded right below,
+   its own top padding is meant to be the only gap, so the two read as
+   one continuous panel. But .filters collapses by default now, and
+   without it there's nothing supplying that breathing room -- add it
+   back here specifically for when that's the case. */
+.location-nav:has(+ .filters[hidden]) {
+  padding-bottom: 14px;
+}
+
+.location-chip {
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.location-chip:hover { color: var(--ink); }
+.location-chip.is-active {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
+/* ---------------------------------------------------------
+   Filter chips — tab-style, not pills; underline marks state.
+   A visibly different background from .type-nav above it marks
+   this row as the nested, section-specific tier.
+--------------------------------------------------------- */
+.filters[hidden] { display: none; }
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  padding: 14px var(--edge);
+  background: rgba(0, 0, 0, 0.14);
+  border-bottom: 1px solid var(--hairline);
+  font-family: var(--font-meta);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.filter-chip {
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.filter-chip:hover { color: var(--ink); }
+.filter-chip.is-active {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
+/* Wraps the active type/location chip together with the tag-filter
+   dropdown arrow so the two sit tight against each other, regardless
+   of the row's own (much larger) gap between chips. */
+.type-chip-group,
+.location-chip-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filters-toggle {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  line-height: 1;
+  color: var(--muted);
+  padding: 2px 4px;
+}
+.filters-toggle:hover { color: var(--ink); }
+/* Active both when the row is actually open, and whenever a specific
+   tag is applied even while it's collapsed -- an applied filter
+   should never be silently invisible. */
+.filters-toggle.is-active { color: var(--accent); }
+
+/* ---------------------------------------------------------
+   Gallery grid
+--------------------------------------------------------- */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  align-items: start;
+  gap: var(--gap);
+  background: var(--hairline);
+  padding: var(--gap) var(--edge) 0;
+}
+
+.tile {
+  margin: 0;
+  background: var(--paper);
+  padding-bottom: var(--gap);
+}
+
+.tile--lg { grid-column: span 7; }
+.tile--md { grid-column: span 5; }
+.tile--sm { grid-column: span 4; }
+
+.tile-button {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  padding: 0;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.tile-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.25) brightness(0.92);
+  transition: filter 0.3s ease, transform 0.5s ease;
+}
+
+.tile-button:hover img,
+.tile-button:focus-visible img {
+  filter: grayscale(0) brightness(1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tile-button:hover img, .tile-button:focus-visible img { transform: scale(1.015); }
+}
+
+/* Viewfinder frame — the signature device: an accent-colored
+   bracket that tightens into focus on hover/keyboard focus,
+   replacing the old page-wide construction grid. */
+.tile-button::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid var(--accent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.tile-button:hover::after,
+.tile-button:focus-visible::after {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tile-button::after { transition: opacity 0.25s ease, inset 0.25s ease; }
+  .tile-button:hover::after, .tile-button:focus-visible::after { inset: 7px; }
+}
+
+.tile-index {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--badge-ink);
+  background: var(--badge-bg);
+  padding: 3px 7px;
+  letter-spacing: 0.02em;
+}
+
+/* Text-post tiles: sized to their own content rather than the fixed
+   3:2 photo frame, so a short poem gets a compact box instead of a
+   mostly-empty image-shaped one. Longer poems are capped and faded
+   out at the bottom rather than blowing up the grid. */
+.tile-button--text {
+  aspect-ratio: auto;
+  display: block;
+  max-height: 420px;
+  padding: 48px 20px 20px;
+  background: var(--overlay);
+  overflow: hidden;
+  position: relative;
+  text-align: left;
+}
+/* The fade only makes sense when a poem is actually being clamped by
+   max-height above -- script.js measures this after render and adds
+   is-clamped. Without that check, the gradient would fall at a fixed
+   distance from the bottom of every tile regardless of where the text
+   actually ends, dimming the last line of plenty of short, complete
+   poems that were never being cut off. */
+.tile-button--text.is-clamped::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 56px;
+  background: linear-gradient(to bottom, transparent, var(--overlay));
+  pointer-events: none;
+}
+
+.tile-text-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tile-text-title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--ink);
+  text-rendering: optimizeLegibility;
+}
+
+.tile-audio-title {
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--ink);
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tile-text-excerpt {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+  white-space: pre-line;
+}
+
+/* Audio tiles: no lightbox — clicking the title expands the player
+   in place within the tile itself. Only one tile plays at a time. */
+.tile-audio {
+  position: relative;
+  padding: 48px 20px 20px;
+  background: var(--overlay);
+}
+
+.tile-audio-toggle {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+}
+.tile-audio-toggle:hover .tile-audio-title { color: var(--accent); }
+.tile-audio.is-expanded .tile-audio-mark { color: var(--accent); }
+
+.tile-audio-duration {
+  flex: none;
+  margin-left: auto;
+  padding-left: 12px;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.tile-audio-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+.tile-audio-player[hidden] { display: none; }
+
+.tile-audio-player .audio-play {
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+}
+.tile-audio-player .audio-time { font-size: 10px; }
+
+.tile-audio-mark {
+  flex: none;
+  font-family: var(--font-meta);
+  font-size: 18px;
+  color: var(--accent);
+}
+
+.tile figcaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 14px 14px;
+}
+
+.tile-title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 15px;
+}
+
+.tile-meta {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  text-align: right;
+  /* Wraps instead of the old nowrap now that tiles can be meaningfully
+     narrower than before -- the split homepage layout gives the
+     gallery column roughly half the width classic.html's full-bleed
+     grid does, so a long date/location line that fit fine there can
+     overflow a small tile here. min-width:0 overrides the flex
+     default (min-width:auto), which otherwise keeps a flex item from
+     shrinking below its unwrapped content width regardless of
+     white-space. */
+  min-width: 0;
+}
+
+.empty-state {
+  font-family: var(--font-meta);
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  padding: 120px var(--edge);
+  line-height: 1.8;
+}
+.empty-state code {
+  background: var(--grid-line);
+  padding: 1px 5px;
+}
+
+/* ---------------------------------------------------------
+   About page
+--------------------------------------------------------- */
+.about-main {
+  padding: 80px var(--edge);
+  min-height: 40vh;
+}
+.about-content {
+  max-width: 640px;
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.about-content p { margin: 0 0 1.2em; }
+
+/* Deliberately understated — a way in for anyone curious, not a call
+   to action, per the request to keep it "out of the way." */
+.about-content p.about-beta-link {
+  margin-top: 2.4em;
+  font-family: var(--font-meta);
+  font-size: 12px;
+}
+.about-beta-link a {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hairline);
+}
+.about-beta-link a:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* ---------------------------------------------------------
+   Obituary page — shares .about-main/.about-content's layout and
+   type scale, with a name/dates masthead on top of the same prose
+   column.
+--------------------------------------------------------- */
+.obituary-name {
+  margin: 0 0 0.2em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--ink);
+}
+.obituary-dates {
+  margin: 0 0 1.8em;
+  font-family: var(--font-meta);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------
+   Archive page — a flat chronological list grouped by year,
+   each row linking back to the gallery deep-linked to that entry.
+--------------------------------------------------------- */
+.archive-main {
+  padding: 40px var(--edge) 80px;
+  max-width: 800px;
+}
+.archive-empty {
+  font-family: var(--font-meta);
+  font-size: 13px;
+  color: var(--muted);
+}
+.archive-year {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 26px;
+  margin: 48px 0 12px;
+  color: var(--ink);
+}
+.archive-year:first-child { margin-top: 0; }
+
+.archive-entries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--hairline);
+}
+.archive-entry { border-bottom: 1px solid var(--hairline); }
+.archive-entry a {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 10px 0;
+  text-decoration: none;
+  color: var(--ink);
+  transition: color 0.15s ease;
+}
+.archive-entry a:hover { color: var(--accent); }
+
+.archive-type {
+  flex: none;
+  width: 64px;
+  font-family: var(--font-meta);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+.archive-title {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+.archive-date {
+  flex: none;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------
+   Footer
+--------------------------------------------------------- */
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 6px;
+  align-items: center;
+  gap: 18px;
+  padding: 22px var(--edge) 40px;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.site-footer .rule {
+  flex: 1;
+  height: 1px;
+  background: var(--hairline);
+}
+
+/* ---------------------------------------------------------
+   Lightbox
+--------------------------------------------------------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: var(--scrim);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: var(--edge);
+}
+.lightbox.is-open { display: flex; }
+
+.lightbox-figure {
+  margin: 0;
+  max-width: min(1100px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox-figure img {
+  max-height: 76vh;
+  width: auto;
+  object-fit: contain;
+  cursor: zoom-in;
+}
+
+/* Zoomed state: drop the fit-to-viewport cap so the image renders
+   near its native resolution, in a scrollable frame, for examining
+   detail. Toggled by clicking the center third of the image. */
+.lightbox-figure.is-zoomed {
+  max-width: 92vw;
+  max-height: 80vh;
+  overflow: auto;
+  cursor: zoom-out;
+}
+.lightbox-figure.is-zoomed img {
+  max-height: none;
+  max-width: none;
+  cursor: zoom-out;
+}
+
+/* Text posts: a scrollable, book-page-like panel in place of the
+   image. Deliberately simplified relative to the source PDF — verse
+   keeps its line and stanza breaks, prose reflows as one justified
+   block, but per-poem one-off effects aren't replicated. */
+.lightbox-text {
+  width: min(640px, 84vw);
+  max-height: 76vh;
+  overflow-y: auto;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  padding: 48px clamp(24px, 5vw, 64px);
+}
+
+.plain-text-toggle {
+  display: block;
+  margin: 0 0 24px auto;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--muted);
+}
+.plain-text-toggle:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+.lightbox-text-body .text-title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--ink);
+  margin: 0 0 1.6em;
+  text-rendering: optimizeLegibility;
+}
+.lightbox-text-body.is-plain .text-title { display: none; }
+
+.lightbox-text-body .text-verse,
+.lightbox-text-body .text-prose {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--ink);
+  margin: 0 0 1.3em;
+  text-rendering: optimizeLegibility;
+  font-variant-ligatures: common-ligatures;
+}
+.lightbox-text-body .text-prose { text-align: justify; }
+
+.lightbox-text-body.is-plain .text-verse,
+.lightbox-text-body.is-plain .text-prose {
+  font-family: var(--font-meta);
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: left;
+  color: var(--muted);
+}
+
+/* Audio player controls: a bare play toggle, a click-to-seek progress
+   bar, and a time readout — no native browser widget, so it stays
+   consistent with the rest of the site's controls. Lives inline
+   inside a .tile-audio-player, not in the lightbox. */
+.audio-play {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+}
+.audio-play:hover { border-color: var(--accent); color: var(--accent); }
+
+.audio-progress {
+  flex: 1;
+  height: 3px;
+  background: var(--hairline);
+  cursor: pointer;
+  position: relative;
+}
+.audio-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  background: var(--accent);
+}
+
+.audio-time {
+  flex: none;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Volume remembers its value (localStorage) across tracks and visits,
+   so it's set once and left alone rather than reset per-track. */
+.audio-volume {
+  flex: none;
+  width: 64px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------
+   Persistent audio player — a fixed corner widget, not part of the
+   page flow, so it survives router-driven navigation between pages
+   untouched. Deliberately a fixed dark panel regardless of theme
+   (same reasoning as the lightbox scrim and the tile-index badge):
+   it's a small always-on-top control surface, not page content, so
+   it needs guaranteed contrast independent of the light/dark toggle.
+--------------------------------------------------------- */
+#site-player {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 300px;
+  max-width: calc(100vw - 40px);
+  max-height: min(70vh, 480px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--scrim);
+  border: 1px solid rgba(242, 241, 236, 0.12);
+  color: var(--badge-ink);
+  font-family: var(--font-body);
+  z-index: 20;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+#site-player[hidden] { display: none; }
+
+/* Mini bar: a compact play/pause + title + next row. Only ever shown
+   on narrow viewports (see the max-width media query below) — on
+   desktop .site-player-full is always what's visible, regardless of
+   the is-collapsed class, since the corner widget is small enough
+   there not to need a collapsed state. */
+.site-player-mini {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.site-player-mini-play { width: 32px; height: 32px; font-size: 11px; }
+.site-player-mini-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 13px;
+}
+.site-player-mini-next {
+  flex: none;
+  font-size: 14px;
+  color: rgba(242, 241, 236, 0.75);
+  padding: 8px;
+}
+
+.site-player-full {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.site-player-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(242, 241, 236, 0.12);
+}
+.site-player-now {
+  font-family: var(--font-meta);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(242, 241, 236, 0.55);
+}
+.site-player-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.site-player-collapse {
+  display: none;
+  color: rgba(242, 241, 236, 0.55);
+  font-size: 14px;
+  padding: 4px 6px;
+}
+.site-player-collapse:hover { color: var(--badge-ink); }
+.site-player-close {
+  color: rgba(242, 241, 236, 0.55);
+  font-size: 12px;
+  line-height: 1;
+  padding: 4px;
+}
+.site-player-close:hover { color: var(--badge-ink); }
+
+.site-player-track {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px 0;
+}
+.site-player-title {
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.site-player-date {
+  font-family: var(--font-meta);
+  font-size: 10px;
+  color: rgba(242, 241, 236, 0.55);
+}
+
+/* Drawn in a fixed 400x40 canvas coordinate space (see player.js) --
+   this display size is just how that gets stretched/shrunk to fit,
+   the browser handles the scaling. */
+.site-player-visualizer {
+  display: block;
+  width: calc(100% - 24px);
+  height: 36px;
+  margin: 10px 12px 0;
+}
+
+/* Tiny kHz reference marks under the visualizer -- positioned via
+   inline left% computed in player.js from the same log frequency
+   scale the bars use, so they land under the right bar regardless of
+   width. */
+.site-player-viz-scale {
+  position: relative;
+  height: 9px;
+  margin: 2px 12px 0;
+}
+.site-player-viz-scale span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-family: var(--font-meta);
+  font-size: 8px;
+  line-height: 1;
+  color: rgba(242, 241, 236, 0.4);
+  white-space: nowrap;
+}
+
+.site-player-progress {
+  /* .audio-progress sets flex: 1 for its original row-flex context
+     (.tile-audio-player) — here it's a direct child of the widget's
+     column flex layout, where flex: 1 would grow it along the
+     vertical axis instead of behaving as a thin horizontal bar.
+     Background also needs a fixed override: .audio-progress uses
+     var(--hairline), which is tuned per-theme against the page's own
+     background, not this widget's fixed-dark one — in light theme
+     that resolves to a dark, near-invisible track. */
+  flex: none;
+  margin: 10px 12px 0;
+  background: rgba(242, 241, 236, 0.14);
+}
+.site-player-time {
+  margin: 6px 12px 0;
+  color: rgba(242, 241, 236, 0.55);
+}
+
+.site-player-transport {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px 12px;
+}
+.site-player-prev, .site-player-next {
+  flex: none;
+  font-size: 14px;
+  color: rgba(242, 241, 236, 0.75);
+  padding: 6px;
+}
+.site-player-prev:hover, .site-player-next:hover { color: var(--accent); }
+.site-player-playpause {
+  border-color: rgba(242, 241, 236, 0.25);
+  color: var(--badge-ink);
+}
+.site-player-playpause:hover { border-color: var(--accent); color: var(--accent); }
+
+.site-player-playlist {
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+  overflow-y: auto;
+  border-top: 1px solid rgba(242, 241, 236, 0.12);
+}
+.site-player-playlist-item button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 12px;
+  text-align: left;
+  font-size: 12px;
+  color: rgba(242, 241, 236, 0.75);
+}
+.site-player-playlist-item button:hover { color: var(--badge-ink); }
+.site-player-playlist-item.is-current button { color: var(--accent); }
+.site-player-playlist-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.site-player-playlist-duration {
+  flex: none;
+  font-family: var(--font-meta);
+  font-size: 10px;
+  color: rgba(242, 241, 236, 0.5);
+}
+
+.lightbox-figure figcaption {
+  margin-top: 18px;
+  color: var(--ink);
+  text-align: center;
+}
+
+.lightbox-caption-line {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-family: var(--font-meta);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.lightbox-title { font-family: var(--font-serif); font-style: italic; text-transform: none; font-size: 16px; }
+.lightbox-meta { color: var(--muted); }
+
+.lightbox-specs {
+  margin-top: 6px;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--muted-dim);
+  letter-spacing: 0.02em;
+}
+
+.lightbox-close, .lightbox-nav {
+  position: absolute;
+  color: var(--ink);
+  font-size: 18px;
+  padding: 12px;
+  z-index: 1;
+}
+.lightbox-close { top: 18px; right: var(--edge); }
+.lightbox-prev { left: var(--edge); }
+.lightbox-next { right: var(--edge); }
+
+.lightbox-copy-link {
+  position: absolute;
+  top: 18px;
+  right: calc(var(--edge) + 52px);
+  font-family: var(--font-meta);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  padding: 15px 8px;
+  z-index: 1;
+  white-space: nowrap;
+}
+.lightbox-copy-link:hover { color: var(--accent); }
+.lightbox-copy-link.is-copied { color: var(--accent); }
+.lightbox-nav { top: 50%; transform: translateY(-50%); font-size: 22px; }
+
+.lightbox-hint {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-meta);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-dim);
+}
+
+/* ---------------------------------------------------------
+   Small screens
+--------------------------------------------------------- */
+@media (max-width: 720px) {
+  .gallery { grid-template-columns: 1fr; }
+  .tile--lg, .tile--md, .tile--sm { grid-column: span 1; }
+  .site-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .header-meta { flex-direction: row; align-items: baseline; gap: 10px; }
+  .lightbox-hint { display: none; }
+
+  /* The corner widget becomes an edge-to-edge bottom bar, defaulting
+     to the compact mini row (see the is-collapsed toggling in
+     player.js) so a playing track doesn't block browsing the rest of
+     the page. Tapping it expands to the full player + playlist. */
+  #site-player {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: 70vh;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+  }
+  #site-player.is-collapsed { max-height: none; }
+  #site-player.is-collapsed .site-player-full { display: none; }
+  #site-player.is-collapsed .site-player-mini { display: flex; }
+  .site-player-collapse { display: inline-flex; }
+}

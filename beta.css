@@ -1,0 +1,203 @@
+/* ---------------------------------------------------------
+   Homepage layout (index.html) — every section (photos, text, audio,
+   ceramics) in a fixed-background split view, styled after
+   seydisfjordurcommunityradio.net. Started as a separate beta.html
+   experiment (hence the "beta" file names) before being promoted; the
+   original gallery layout now lives at classic.html, styled by
+   styles.css alone. Own breakpoint (900px) rather than the rest of the
+   site's 720px: below it there isn't room for a half-viewport
+   background column to mean anything, so the background image is
+   dropped and .beta-detail becomes a full-width modal instead of a
+   permanent split pane. Audio doesn't use .beta-detail at all — it
+   plays inline in its own tile, same as everywhere else on the site.
+--------------------------------------------------------- */
+
+.beta-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: calc(100vh - 74px);
+}
+
+@media (min-width: 900px) {
+  .beta-layout { grid-template-columns: 1fr 1fr; }
+}
+
+/* Empty spacer column — no visible box of its own. Its only job is to
+   occupy the left half of the grid row so the row (and therefore the
+   fixed image sitting behind it) stretches the full height of the
+   right column's content. The image and detail panel are both
+   position:fixed at width:50%, so they line up with this column
+   exactly without needing to be visually inside it. */
+.beta-bg-col { display: none; }
+
+@media (min-width: 900px) {
+  .beta-bg-col { display: block; }
+}
+
+.beta-bg-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  background: var(--grid-line);
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+.beta-bg-image.is-dimmed { filter: brightness(0.35) saturate(0.7); }
+
+/* Below 900px there's no background column for this to sit beside, so
+   it becomes a full-width modal instead (z-index above the header,
+   which the desktop split-view deliberately stays under — see the
+   close button's offset). Same element, same JS, two layouts. */
+.beta-detail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 48px;
+  background: var(--scrim);
+}
+.beta-detail[hidden] { display: none; }
+
+@media (min-width: 900px) {
+  .beta-detail { width: 50%; z-index: 1; }
+}
+
+.beta-detail-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--badge-ink);
+  border: 1px solid rgba(242, 241, 236, 0.2);
+}
+.beta-detail-close:hover { border-color: var(--accent); color: var(--accent); }
+
+@media (min-width: 900px) {
+  /* Below 900px .beta-detail sits above the header (z-index 6), so the
+     close button can sit at a flat 20px. At 900px+ it deliberately
+     stays under the header (z-index 1, see .site-header below) as
+     part of the split view, so the button needs to clear the header's
+     73px height explicitly instead. */
+  .beta-detail-close { top: calc(73px + 20px); }
+}
+
+.beta-detail-text {
+  width: 100%;
+  max-width: 440px;
+  max-height: 56vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.beta-detail-text[hidden] { display: none; }
+.beta-detail-text-body .text-title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 19px;
+  color: var(--badge-ink);
+  margin: 0 0 1em;
+  text-align: center;
+}
+.beta-detail-text-body .text-verse,
+.beta-detail-text-body .text-prose {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(242, 241, 236, 0.88);
+  margin: 0 0 1.1em;
+}
+.beta-detail-text-body .text-prose { text-align: justify; }
+
+.beta-detail-image-btn {
+  display: block;
+  max-width: 100%;
+  max-height: 62vh;
+  padding: 0;
+  cursor: zoom-in;
+}
+/* Without this, the unconditional display:block above outranks the
+   browser's own [hidden] rule (same specificity, author styles load
+   after the UA stylesheet) -- switching to a text item would set the
+   hidden attribute via JS but the image button stayed visible anyway. */
+.beta-detail-image-btn[hidden] { display: none; }
+.beta-detail-image-btn img {
+  max-width: 100%;
+  max-height: 62vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.beta-detail-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  color: var(--badge-ink);
+  max-width: 90%;
+}
+.beta-detail-title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
+}
+.beta-detail-meta {
+  font-family: var(--font-meta);
+  font-size: 12px;
+  color: rgba(242, 241, 236, 0.6);
+}
+.beta-detail-specs {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: rgba(242, 241, 236, 0.45);
+}
+.beta-detail-specs[hidden] { display: none; }
+
+/* Right column — the actual page content, opaque so it reads as a
+   solid panel over the fixed background rather than letting it show
+   through the grid's hairline gaps. */
+.beta-content-col {
+  position: relative;
+  z-index: 1;
+  background: var(--paper);
+}
+
+.beta-content-col .location-nav,
+.beta-content-col .filters {
+  padding-left: var(--edge);
+  padding-right: var(--edge);
+}
+
+.beta-gallery {
+  padding-left: var(--edge);
+  padding-right: var(--edge);
+}
+
+.tile.is-selected .tile-button::after {
+  opacity: 1;
+  inset: 7px;
+}
+
+/* The site header sits above the fixed background image in normal
+   document order, but as a non-positioned element that isn't enough
+   to guarantee paint order against a position:fixed sibling further
+   down the page — make it explicit. */
+.site-header {
+  position: relative;
+  z-index: 2;
+  background: var(--paper);
+}

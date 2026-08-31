@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Classic — In Memory of [Cousin's Name]</title>
+<meta name="color-scheme" content="light">
+<link rel="icon" href="favicon.ico" sizes="16x16">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=Baskervville:ital@0;1&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <span class="site-name">In Memory of [Cousin's Name]</span>
+  <div class="header-right">
+    <nav class="site-nav" aria-label="Site pages">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="obituary.html">Obituary</a>
+      <a href="archive.html">Log</a>
+    </nav>
+    <div class="header-meta">
+      <span class="index-count" id="index-count">N&deg; 00</span>
+      <span class="index-year">2026&mdash;</span>
+    </div>
+  </div>
+</header>
+
+<div id="view">
+<div class="nav-row">
+  <nav class="type-nav" id="type-nav" aria-label="Filter by section" hidden>
+    <!-- populated by script.js: All / Artwork / Text / Audio. Sections
+         with no entries yet just fall through to the empty state. -->
+  </nav>
+  <div class="nav-utility">
+    <input class="search-input" id="search-input" type="search" placeholder="Search" aria-label="Search everything on the site">
+    <button class="shuffle-btn" id="shuffle-btn" type="button" aria-label="Open a random entry">Random</button>
+  </div>
+</div>
+
+<nav class="location-nav" id="location-nav" aria-label="Filter by location" hidden>
+  <!-- populated by script.js: "All" plus one chip per distinct location —
+       only shown within the Artwork section -->
+</nav>
+
+<nav class="filters" id="filters" aria-label="Filter by tag">
+  <!-- populated by script.js: "All" plus one chip per tag used in the
+       active section — hidden while the top-level section is "All" -->
+</nav>
+
+<main>
+  <section class="gallery" id="gallery" aria-label="Index">
+    <!-- populated by script.js from photos.js -->
+  </section>
+
+  <p class="empty-state" id="empty-state" hidden>
+    Nothing indexed yet.<br>
+    Add a file to <code>/images</code>, <code>/audio</code>, or <code>/text</code>, and register it in <code>photos.js</code>.
+  </p>
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Item view" aria-hidden="true">
+  <button class="lightbox-copy-link" id="lightbox-copy-link" type="button" aria-label="Copy link to this item">Copy link</button>
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">&#10005;</button>
+  <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous item">&#8592;</button>
+  <figure class="lightbox-figure">
+    <img id="lightbox-image" src="" alt="">
+    <div class="lightbox-text" id="lightbox-text" hidden>
+      <button class="plain-text-toggle" id="plain-text-toggle" type="button">Plain text</button>
+      <div class="lightbox-text-body" id="lightbox-text-body"></div>
+    </div>
+    <figcaption>
+      <div class="lightbox-caption-line">
+        <span class="lightbox-index" id="lightbox-index"></span>
+        <span class="lightbox-title" id="lightbox-title"></span>
+        <span class="lightbox-meta" id="lightbox-meta"></span>
+      </div>
+      <div class="lightbox-specs" id="lightbox-specs"></div>
+    </figcaption>
+  </figure>
+  <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next item">&#8594;</button>
+  <p class="lightbox-hint" aria-hidden="true">&larr; &rarr; Navigate &middot; Click Center to Zoom &middot; Esc Close &middot; Swipe on Touch</p>
+</div>
+</div>
+
+<footer class="site-footer">
+  <span>In memory of [Cousin's Name]</span>
+  <span class="rule" aria-hidden="true"></span>
+  <span id="site-stats"></span>
+</footer>
+
+<script src="photos.js"></script>
+<script src="script.js"></script>
+<script src="archive.js"></script>
+<script src="beta.js"></script>
+<script src="stats.js"></script>
+<script src="player.js"></script>
+<script src="router.js"></script>
+</body>
+</html>
