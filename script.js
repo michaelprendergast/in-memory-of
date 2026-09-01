@@ -654,10 +654,17 @@ function initIndexPage() {
     else setZoomed(true);
   });
 
-  // Swipe navigation for touch devices.
+  // Swipe navigation for touch devices. A second finger touching down
+  // mid-gesture means this is a pinch-to-zoom, not a swipe -- abort
+  // tracking so it doesn't get read as a big horizontal drag and step
+  // to the next photo out from under the zoom.
   lightbox.addEventListener(
     "touchstart",
     (e) => {
+      if (e.touches.length > 1) {
+        touchStartX = null;
+        return;
+      }
       touchStartX = e.changedTouches[0].clientX;
     },
     { passive: true }
@@ -666,6 +673,13 @@ function initIndexPage() {
     "touchend",
     (e) => {
       if (touchStartX === null) return;
+      // While the page itself is pinch-zoomed in, a one-finger drag is
+      // panning around the zoomed view, not a swipe -- don't read it
+      // as one.
+      if (window.visualViewport && window.visualViewport.scale > 1.01) {
+        touchStartX = null;
+        return;
+      }
       const dx = e.changedTouches[0].clientX - touchStartX;
       if (Math.abs(dx) > 50) step(dx > 0 ? -1 : 1);
       touchStartX = null;

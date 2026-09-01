@@ -205,11 +205,14 @@
   });
 
   // Swiping to scroll the filmstrip itself shouldn't also be read as a
-  // page-turn gesture on the stage behind it.
+  // page-turn gesture on the stage behind it. Same for a second finger
+  // touching down mid-gesture -- that's a pinch-to-zoom on a page's
+  // detail, not a swipe, so abort tracking rather than let it land as
+  // a big horizontal drag and turn the page out from under the zoom.
   overlay.addEventListener(
     "touchstart",
     (e) => {
-      if (e.target.closest(".book-filmstrip")) {
+      if (e.touches.length > 1 || e.target.closest(".book-filmstrip")) {
         touchStartX = null;
         return;
       }
@@ -221,6 +224,13 @@
     "touchend",
     (e) => {
       if (touchStartX === null) return;
+      // While the page itself is pinch-zoomed in, a one-finger drag is
+      // panning around the zoomed view, not a swipe -- don't read it
+      // as one.
+      if (window.visualViewport && window.visualViewport.scale > 1.01) {
+        touchStartX = null;
+        return;
+      }
       const dx = e.changedTouches[0].clientX - touchStartX;
       if (Math.abs(dx) > 50) {
         if (dx > 0) stepBackward();
