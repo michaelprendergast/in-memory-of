@@ -134,8 +134,6 @@ or two; a hard refresh clears any stale cached copy of the page.
 - A short personal note on the About page (`about.html`) — the name
   and obituary text are already in place, but the "who's keeping this
   site" paragraph is still a placeholder.
-- The bracketed `[rec center?]` in the obituary (`obituary.html`) —
-  left as-is from the draft rather than guessing at the name.
 - `favicon.ico` — the original site's favicon wasn't carried over;
   drop a new one in the repo root and it'll pick up automatically.
 - Actual artwork, music, and writing in `photos.js` (see "Adding

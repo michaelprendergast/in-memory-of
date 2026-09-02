@@ -3,6 +3,10 @@
 # version has been generated from them.
 originals/
 
+# Staged media not yet approved/resized for actual use on the site --
+# kept locally for review, never committed.
+pending/
+
 # Word's own lock/temp files, created while a .docx is open.
 ~$*
 ~WRL*.tmp

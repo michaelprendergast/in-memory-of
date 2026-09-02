@@ -555,6 +555,12 @@ button {
   color: var(--ink);
 }
 .about-content p { margin: 0 0 1.2em; }
+.about-content a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hairline);
+}
+.about-content a:hover { border-bottom-color: var(--accent); }
 
 /* ---------------------------------------------------------
    Obituary page — shares .about-main/.about-content's layout and
