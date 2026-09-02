@@ -3,12 +3,13 @@
   writing all live in this one array, newest first. Every entry needs
   a `type`.
 
-  --- Artwork (type: "photo") / Photography (type: "photography") ---
-  Same fields either way — "photo" is for the artwork itself (drawings,
-  paintings, photographs of pieces), "photography" is for photos he
-  took. Each gets its own tab above the gallery.
+  --- Artwork ("photo") / Sculpture ("sculpture") / Photography ("photography") ---
+  Same fields across all three — "photo" is flat artwork (drawings,
+  paintings, prints), "sculpture" is physical/dimensional wall art or
+  sculptural pieces, "photography" is photos he took. Each gets its
+  own tab above the gallery.
   Required:
-    type      "photo" or "photography" (see above)
+    type      "photo", "sculpture", or "photography" (see above)
     file      path to the image, relative to the site root, e.g.
               "images/art/2020-untitled.jpg"
     title     short caption
@@ -65,6 +66,101 @@
 */
 
 const PHOTOS = [
+  // Paintings and prints, added 2026-09-02 -- titles/dates/alt text
+  // still need to be filled in by hand; these are placeholders.
+  { type: "photo", file: "images/art/painting-001.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-002.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-003.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-004.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-005.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-006.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-007.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-008.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-009.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-010.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-011.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-012.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-013.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-014.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-015.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-016.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-017.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-018.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-019.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-020.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-021.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-022.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-023.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-024.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-025.jpg", tags: ["painting"],
+    alt: "Untitled painting by Zakk Ziegler" },
+
+  // Wall art and sculpture, added 2026-09-02 -- same placeholder note.
+  { type: "sculpture", file: "images/sculpture/sculpture-001.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-002.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-003.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-004.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-005.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-006.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-007.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-008.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-009.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-010.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-011.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-012.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-013.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-014.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-015.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-016.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-017.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-018.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-019.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+  { type: "sculpture", file: "images/sculpture/sculpture-020.jpg", tags: ["sculpture"],
+    alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+
   { type: "photo", file: "images/bound-art-journal/page-001.jpg", title: "Bound Art Journal",
     tags: ["journal", "sketchbook"],
     alt: "Weathered brown leather journal cover with brass grommets and a knotted leather tie closure",

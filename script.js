@@ -13,8 +13,15 @@ function initIndexPage() {
   // ones have entries yet — sections with nothing in them just show
   // the existing empty state rather than being hidden from the nav.
   // "All" is last and never the default — the site opens on Artwork.
-  const TYPES = ["photo", "text", "audio", "photography", "all"];
-  const TYPE_LABELS = { all: "All", photo: "Artwork", text: "Text", audio: "Audio", photography: "Photography" };
+  const TYPES = ["photo", "sculpture", "text", "audio", "photography", "all"];
+  const TYPE_LABELS = {
+    all: "All",
+    photo: "Artwork",
+    sculpture: "Sculpture",
+    text: "Text",
+    audio: "Audio",
+    photography: "Photography",
+  };
   const DEFAULT_TYPE = "photo";
 
   const lightbox = document.getElementById("lightbox");

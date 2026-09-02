@@ -13,11 +13,12 @@
 
   const LABELS = {
     photo: ["image", "images"],
+    sculpture: ["sculpture", "sculptures"],
     text: ["text file", "text files"],
     audio: ["audio file", "audio files"],
     photography: ["photograph", "photographs"],
   };
-  const ORDER = ["photo", "text", "audio", "photography"];
+  const ORDER = ["photo", "sculpture", "text", "audio", "photography"];
 
   const counts = {};
   items.forEach((p) => {
