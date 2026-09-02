@@ -66,22 +66,13 @@ button {
 --------------------------------------------------------- */
 .site-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: baseline;
   gap: 24px;
   padding: 22px var(--edge);
   border-bottom: 1px solid var(--hairline);
 }
 
-.site-name {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 14px;
-  letter-spacing: 0.03em;
-}
 .header-right {
   display: flex;
   align-items: center;
@@ -110,8 +101,8 @@ button {
 
 /* ---------------------------------------------------------
    Hero — homepage only, sits above the gallery's filter/search row.
-   Deliberately plain: just his name and dates, nothing else
-   competing for attention.
+   Name, his art business name, and dates -- nothing else competing
+   for attention.
 --------------------------------------------------------- */
 .hero {
   padding: 64px var(--edge) 48px;
@@ -124,6 +115,13 @@ button {
   font-weight: 700;
   font-size: clamp(32px, 5vw, 52px);
   color: var(--ink);
+}
+.hero-subtitle {
+  margin: 0 0 0.6em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--muted);
 }
 .hero-dates {
   margin: 0;
@@ -1213,7 +1211,6 @@ button {
 --------------------------------------------------------- */
 @media (max-width: 720px) {
   .gallery { grid-template-columns: 1fr; }
-  .site-header { flex-direction: column; align-items: flex-start; gap: 10px; }
   .lightbox-hint { display: none; }
 
   /* The corner widget becomes an edge-to-edge bottom bar, defaulting
