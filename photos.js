@@ -48,8 +48,14 @@
               narrow screens), starting from the closed cover.
 
   --- Music (type: "audio") ---
-  Required: type, file (e.g. "audio/music/song.mp3"), title, date
-  Optional: duration (e.g. "3:27" — shown next to the title), tags
+  Required: type, file (e.g. "audio/music/song.mp3"), cover (a still
+            image, e.g. "images/music/song.jpg" — the tile shows this,
+            not the audio file itself), title
+  Optional: date, duration (e.g. "3:27" — shown next to the title), tags
+  The tile looks like any other image tile with a play/pause icon over
+  it; clicking it sends the track to the persistent corner player
+  (player.js) rather than opening a lightbox — that's what actually
+  plays audio and keeps it playing across page navigation.
 
   --- Writing (type: "text") ---
   Required: type, date, format ("verse" keeps line/stanza breaks,
@@ -70,8 +76,8 @@
       date: "2020",
       alt: "Describe the piece for screen readers" },
 
-    { type: "audio", file: "audio/music/song.mp3", title: "Song title",
-      date: "2020-05", duration: "3:27" },
+    { type: "audio", file: "audio/music/song.mp3", cover: "images/music/song.jpg",
+      title: "Song title", date: "2020-05", duration: "3:27" },
 
     { type: "text", date: "2020-05", format: "prose",
       title: "Untitled", body: `Body text goes here.` },
@@ -300,6 +306,34 @@ const PHOTOS = [
     alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
   { type: "sculpture", file: "images/sculpture/sculpture-020.jpg", title: "No. 20", tags: ["sculpture"],
     alt: "Untitled sculptural or mixed-media piece by Zakk Ziegler" },
+
+  // Music, added 2026-09-02.
+  { type: "audio", file: "audio/music/forest-scent.mp3", cover: "images/music/forest-scent.jpg",
+    title: "Forest Scent", date: "2021", duration: "2:49" },
+  { type: "audio", file: "audio/music/out-of-phase.mp3", cover: "images/music/out-of-phase.jpg",
+    title: "Out Of Phase", date: "2021", duration: "8:20" },
+  { type: "audio", file: "audio/music/phosphorescent-tulips-when-i-was-smol.mp3", cover: "images/music/phosphorescent-tulips-when-i-was-smol.jpg",
+    title: "Phosphorescent Tulips (When I Was Smol)", date: "2021", duration: "3:04" },
+  { type: "audio", file: "audio/music/salience.mp3", cover: "images/music/salience.jpg",
+    title: "Salience", date: "2021", duration: "1:39" },
+  { type: "audio", file: "audio/music/another-breath.mp3", cover: "images/music/another-breath.jpg",
+    title: "Another Breath", date: "2020", duration: "1:12" },
+  { type: "audio", file: "audio/music/facsimile.mp3", cover: "images/music/facsimile.jpg",
+    title: "Facsimile", date: "2020", duration: "1:36" },
+  { type: "audio", file: "audio/music/lucas.mp3", cover: "images/music/lucas.jpg",
+    title: "Lucas", date: "2020", duration: "3:59" },
+  { type: "audio", file: "audio/music/martini-olive.mp3", cover: "images/music/martini-olive.jpg",
+    title: "Martini Olive", date: "2020", duration: "1:49" },
+  { type: "audio", file: "audio/music/mint-cookies-on-a-merry-go-round.mp3", cover: "images/music/mint-cookies-on-a-merry-go-round.jpg",
+    title: "Mint Cookies On A Merry-Go-Round", date: "2020", duration: "2:39" },
+  { type: "audio", file: "audio/music/sun-juice.mp3", cover: "images/music/sun-juice.jpg",
+    title: "Sun Juice", date: "2020", duration: "2:02" },
+  { type: "audio", file: "audio/music/walks-alone.mp3", cover: "images/music/walks-alone.jpg",
+    title: "Walks Alone", date: "2020", duration: "1:38" },
+  { type: "audio", file: "audio/music/fm-rain.mp3", cover: "images/music/fm-rain.jpg",
+    title: "FM Rain", date: "2019", duration: "4:21" },
+  { type: "audio", file: "audio/music/impulse.mp3", cover: "images/music/impulse.jpg",
+    title: "Impulse", duration: "2:23" },
 
   { type: "photo", file: "images/art/painting-001.jpg", title: "No. 1",
     alt: "Untitled piece by Zakk Ziegler" },

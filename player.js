@@ -6,8 +6,8 @@
   // router (router.js) swaps page content around it but never touches
   // this script or the widget it builds, which is what lets a track
   // keep playing gaplessly as you navigate between pages. Inline audio
-  // tiles (script.js's buildAudioTile) don't own any audio themselves;
-  // they just call into window.SitePlayer and mirror its state.
+  // tiles (script.js) don't own any audio themselves; they just call
+  // into window.SitePlayer and mirror its state.
 
   const VOLUME_KEY = "photo-site-audio-volume";
   function getStoredVolume() {
@@ -375,29 +375,20 @@
   }
 
   function applyTileState(tileEl) {
-    tileEl.classList.add("is-expanded");
-    const playerBox = tileEl.querySelector(".tile-audio-player");
-    if (playerBox) playerBox.hidden = false;
-    const fill = tileEl.querySelector(".audio-progress-fill");
-    const time = tileEl.querySelector(".audio-time");
-    const playBtn = tileEl.querySelector(".audio-play");
-    const volumeInput = tileEl.querySelector(".audio-volume");
-    const pct = audioEl.duration ? (audioEl.currentTime / audioEl.duration) * 100 : 0;
-    if (fill) fill.style.width = pct + "%";
-    if (time) time.textContent = formatTime(audioEl.currentTime) + " / " + formatTime(audioEl.duration);
-    if (playBtn) playBtn.textContent = audioEl.paused ? "▶" : "❚❚";
-    if (volumeInput) volumeInput.value = String(audioEl.volume);
+    tileEl.classList.add("is-playing");
+    const icon = tileEl.querySelector(".tile-audio-play-icon");
+    if (icon) icon.textContent = audioEl.paused ? "▶" : "❚❚";
   }
 
   function collapseTile(tileEl) {
-    tileEl.classList.remove("is-expanded");
-    const playerBox = tileEl.querySelector(".tile-audio-player");
-    if (playerBox) playerBox.hidden = true;
+    tileEl.classList.remove("is-playing");
+    const icon = tileEl.querySelector(".tile-audio-play-icon");
+    if (icon) icon.textContent = "▶";
   }
 
   function syncActiveTile() {
     const track = currentTrack();
-    document.querySelectorAll(".tile-audio.is-expanded").forEach((el) => {
+    document.querySelectorAll(".tile-audio.is-playing").forEach((el) => {
       if (!track || el.dataset.file !== track.file) collapseTile(el);
     });
     if (!track) return;

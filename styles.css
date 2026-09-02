@@ -425,19 +425,6 @@ button {
   text-rendering: optimizeLegibility;
 }
 
-.tile-audio-title {
-  font-family: var(--font-body);
-  font-style: normal;
-  font-weight: 500;
-  font-size: 15px;
-  color: var(--ink);
-  flex: 1 1 auto;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .tile-text-excerpt {
   margin: 0;
   font-family: var(--font-serif);
@@ -447,54 +434,39 @@ button {
   white-space: pre-line;
 }
 
-/* Audio tiles: no lightbox — clicking the title expands the player
-   in place within the tile itself. Only one tile plays at a time. */
-.tile-audio {
-  position: relative;
-  padding: 48px 20px 20px;
-  background: var(--overlay);
-}
-
-.tile-audio-toggle {
+/* Audio tiles: cover art like any other image tile, with a play/pause
+   icon overlay. Clicking sends the track to the persistent corner
+   player (player.js) rather than expanding controls in place -- that
+   widget already owns progress/volume/visualizer, so the tile itself
+   only needs to reflect play state. .tile-audio is kept as a bare
+   marker class -- player.js queries tiles by it plus data-file to
+   mirror playback state, same pattern as book.js/lightbox use
+   dataset attributes rather than a kept element reference. */
+.tile-audio-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  width: 100%;
-  padding: 0;
-  text-align: left;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--badge-bg);
+  color: var(--badge-ink);
+  font-size: 16px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
 }
-.tile-audio-toggle:hover .tile-audio-title { color: var(--accent); }
-.tile-audio.is-expanded .tile-audio-mark { color: var(--accent); }
-
-.tile-audio-duration {
-  flex: none;
-  margin-left: auto;
-  padding-left: 12px;
-  font-family: var(--font-meta);
-  font-size: 11px;
-  color: var(--muted);
+.tile-button--audio:hover .tile-audio-play-icon,
+.tile-button--audio:focus-visible .tile-audio-play-icon {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.06);
 }
-
-.tile-audio-player {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 18px;
-}
-.tile-audio-player[hidden] { display: none; }
-
-.tile-audio-player .audio-play {
-  width: 32px;
-  height: 32px;
-  font-size: 12px;
-}
-.tile-audio-player .audio-time { font-size: 10px; }
-
-.tile-audio-mark {
-  flex: none;
-  font-family: var(--font-meta);
-  font-size: 18px;
-  color: var(--accent);
+.tile-button--audio.is-playing {
+  box-shadow: 0 0 0 2px var(--accent) inset;
 }
 
 .tile figcaption {

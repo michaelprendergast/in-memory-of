@@ -139,111 +139,18 @@ function initIndexPage() {
     return haystack.includes(q);
   }
 
-  const VOLUME_KEY = "photo-site-audio-volume";
-  function getStoredVolume() {
-    const v = parseFloat(localStorage.getItem(VOLUME_KEY));
-    return isFinite(v) && v >= 0 && v <= 1 ? v : 0.8;
-  }
-
-  // Audio plays inline within its own grid tile rather than opening the
-  // lightbox — there's nothing to navigate prev/next between, so the
-  // modal doesn't apply. The tile itself holds no playback state; it's
-  // a thin control surface over window.SitePlayer (player.js), which
-  // owns the one persistent <audio> element and keeps playing across
-  // page navigation. player.js mirrors its state back onto whichever
-  // tile matches the current track, looked up fresh by data-file each
-  // time rather than a kept reference.
-  function buildAudioTile(photo, indexTag) {
-    const container = document.createElement("div");
-    container.className = "tile-audio";
-    container.dataset.file = photo.file;
-
-    const toggle = document.createElement("button");
-    toggle.className = "tile-audio-toggle";
-    toggle.type = "button";
-    toggle.setAttribute("aria-label", "Play " + (photo.title || "track"));
-
-    const mark = document.createElement("span");
-    mark.className = "tile-audio-mark";
-    mark.textContent = "▸";
-    const previewTitle = document.createElement("span");
-    previewTitle.className = "tile-audio-title";
-    previewTitle.textContent = photo.title || "Untitled";
-    toggle.appendChild(mark);
-    toggle.appendChild(previewTitle);
-    if (photo.duration) {
-      const previewDuration = document.createElement("span");
-      previewDuration.className = "tile-audio-duration";
-      previewDuration.textContent = photo.duration;
-      toggle.appendChild(previewDuration);
-    }
-
-    const player = document.createElement("div");
-    player.className = "tile-audio-player";
-    player.hidden = true;
-
-    const playBtn = document.createElement("button");
-    playBtn.className = "audio-play";
-    playBtn.type = "button";
-    playBtn.setAttribute("aria-label", "Play");
-    playBtn.textContent = "▶";
-
-    const progress = document.createElement("div");
-    progress.className = "audio-progress";
-    const progressFill = document.createElement("div");
-    progressFill.className = "audio-progress-fill";
-    progress.appendChild(progressFill);
-
-    const time = document.createElement("span");
-    time.className = "audio-time";
-    time.textContent = "0:00 / 0:00";
-
-    const volume = document.createElement("input");
-    volume.className = "audio-volume";
-    volume.type = "range";
-    volume.min = "0";
-    volume.max = "1";
-    volume.step = "0.01";
-    volume.value = String(getStoredVolume());
-    volume.setAttribute("aria-label", "Volume");
-    volume.addEventListener("input", () => {
-      if (window.SitePlayer) window.SitePlayer.setVolume(parseFloat(volume.value));
-    });
-    volume.addEventListener("click", (e) => e.stopPropagation());
-
-    player.appendChild(playBtn);
-    player.appendChild(progress);
-    player.appendChild(time);
-    player.appendChild(volume);
-
-    toggle.addEventListener("click", () => {
-      if (window.SitePlayer) window.SitePlayer.playOrToggle(photo);
-    });
-    playBtn.addEventListener("click", () => {
-      if (window.SitePlayer) window.SitePlayer.playOrToggle(photo);
-    });
-    progress.addEventListener("click", (e) => {
-      if (!window.SitePlayer) return;
-      const rect = progress.getBoundingClientRect();
-      window.SitePlayer.seek((e.clientX - rect.left) / rect.width);
-    });
-
-    container.appendChild(indexTag);
-    container.appendChild(toggle);
-    container.appendChild(player);
-
-    // Reflects an already-playing track immediately rather than
-    // waiting for the next player tick — matters when this tile is
-    // built (gallery re-render, or landing on this page) while a
-    // track is already going.
-    if (window.SitePlayer) window.SitePlayer.syncTile(container);
-
-    return container;
-  }
+  // Audio tiles show cover art like any other image tile; the tile
+  // itself holds no playback state, it's a thin control surface over
+  // window.SitePlayer (player.js), which owns the one persistent
+  // <audio> element and keeps playing across page navigation.
+  // player.js mirrors its state back onto whichever tile matches the
+  // current track, looked up fresh by data-file each time rather than
+  // a kept reference.
 
   function metaLine(photo) {
     const parts = [photo.date, photo.location].filter(Boolean);
     if (isBookItem(photo)) parts.push(photo.pages.length - 1 + " pages");
+    if (itemType(photo) === "audio" && photo.duration) parts.push(photo.duration);
     return parts.join(" \u00b7 ");
   }
 
@@ -474,13 +381,19 @@ function initIndexPage() {
       indexTag.className = "tile-index";
       indexTag.textContent = "N\u00b0 " + pad(i + 1);
 
+      const button = document.createElement("button");
+      const isBook = isBookItem(photo);
+      button.className =
+        "tile-button" + (isText ? " tile-button--text" : "") + (isAudio ? " tile-audio tile-button--audio" : "");
+      button.type = "button";
+
       if (isAudio) {
-        figure.appendChild(buildAudioTile(photo, indexTag));
+        button.dataset.file = photo.file;
+        button.setAttribute("aria-label", "Play " + (photo.title || "track"));
+        button.addEventListener("click", () => {
+          if (window.SitePlayer) window.SitePlayer.playOrToggle(photo);
+        });
       } else {
-        const button = document.createElement("button");
-        button.className = "tile-button" + (isText ? " tile-button--text" : "");
-        button.type = "button";
-        const isBook = isBookItem(photo);
         button.setAttribute(
           "aria-label",
           isBook ? "Open " + (photo.title || "bound journal") : "Open " + (photo.title || "photograph") + " full size"
@@ -492,51 +405,63 @@ function initIndexPage() {
             openLightbox(i);
           }
         });
-
-        if (isText) {
-          const preview = document.createElement("div");
-          preview.className = "tile-text-preview";
-          if (photo.title) {
-            const previewTitle = document.createElement("span");
-            previewTitle.className = "tile-text-title";
-            previewTitle.textContent = photo.title;
-            preview.appendChild(previewTitle);
-          }
-          const excerpt = document.createElement("p");
-          excerpt.className = "tile-text-excerpt";
-          excerpt.textContent = photo.body || "";
-          preview.appendChild(excerpt);
-          button.appendChild(preview);
-        } else {
-          const img = document.createElement("img");
-          img.src = photo.file;
-          img.alt = photo.alt || "";
-          img.loading = "lazy";
-          button.appendChild(img);
-          if (isBook) {
-            const badge = document.createElement("span");
-            badge.className = "tile-book-badge";
-            badge.textContent = "Journal";
-            button.appendChild(badge);
-          } else if (imagesOf(photo).length > 1) {
-            const badge = document.createElement("span");
-            badge.className = "tile-book-badge";
-            badge.textContent = imagesOf(photo).length + " Photos";
-            button.appendChild(badge);
-          }
-        }
-        button.appendChild(indexTag);
-        figure.appendChild(button);
       }
+
+      if (isText) {
+        const preview = document.createElement("div");
+        preview.className = "tile-text-preview";
+        if (photo.title) {
+          const previewTitle = document.createElement("span");
+          previewTitle.className = "tile-text-title";
+          previewTitle.textContent = photo.title;
+          preview.appendChild(previewTitle);
+        }
+        const excerpt = document.createElement("p");
+        excerpt.className = "tile-text-excerpt";
+        excerpt.textContent = photo.body || "";
+        preview.appendChild(excerpt);
+        button.appendChild(preview);
+      } else {
+        const img = document.createElement("img");
+        img.src = isAudio ? photo.cover || "" : photo.file;
+        img.alt = photo.alt || "";
+        img.loading = "lazy";
+        button.appendChild(img);
+        if (isAudio) {
+          const playIcon = document.createElement("span");
+          playIcon.className = "tile-audio-play-icon";
+          playIcon.setAttribute("aria-hidden", "true");
+          playIcon.textContent = "▶";
+          button.appendChild(playIcon);
+        } else if (isBook) {
+          const badge = document.createElement("span");
+          badge.className = "tile-book-badge";
+          badge.textContent = "Journal";
+          button.appendChild(badge);
+        } else if (imagesOf(photo).length > 1) {
+          const badge = document.createElement("span");
+          badge.className = "tile-book-badge";
+          badge.textContent = imagesOf(photo).length + " Photos";
+          button.appendChild(badge);
+        }
+      }
+      button.appendChild(indexTag);
+      figure.appendChild(button);
+
+      // Reflects an already-playing track immediately rather than
+      // waiting for the next player tick -- matters when this tile is
+      // built (gallery re-render, or landing on this page) while a
+      // track is already going.
+      if (isAudio && window.SitePlayer) window.SitePlayer.syncTile(button);
 
       const caption = document.createElement("figcaption");
       const meta = document.createElement("span");
       meta.className = "tile-meta";
       meta.textContent = metaLine(photo);
 
-      if (isAudio || (isText && photo.title)) {
-        // The title already appears above (audio toggle, or the poem's
-        // own heading) — showing it again here would just be a duplicate.
+      if (isText && photo.title) {
+        // The title already appears above, inside the tile — showing
+        // it again here would just be a duplicate.
         caption.appendChild(document.createElement("span"));
       } else {
         const title = document.createElement("span");

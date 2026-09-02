@@ -65,8 +65,12 @@ Broad strokes:
   **Photography** (`type: "photography"`) — same fields across all
   three, just different tabs: resize and compress the image first
   (see below), save it into `images/`, and add an entry pointing at it.
-- **Music** (`type: "audio"`): save the file into `audio/music/` and
-  add an entry with its `duration`.
+- **Music** (`type: "audio"`): save the file into `audio/music/` and a
+  still image (album/single art) into `images/music/`, then add an
+  entry pointing at both — the gallery tile shows the `cover` image
+  with a play/pause overlay, same size as any other tile; clicking it
+  hands the track to the persistent corner player, which is what
+  actually plays it and keeps it going across page navigation.
 - **Writing** (`type: "text"`): no file needed — the text itself is
   the `body` field, written directly in the manifest.
 - **Bound objects** (a sketchbook, a journal — meant to be read as a
