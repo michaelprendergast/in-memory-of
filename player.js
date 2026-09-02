@@ -193,7 +193,7 @@
       analyser.getByteFrequencyData(freqData);
       vizCtx.clearRect(0, 0, VIZ_WIDTH, VIZ_HEIGHT);
       const barWidth = VIZ_WIDTH / BAR_COUNT;
-      vizCtx.fillStyle = "rgba(226, 145, 74, 0.85)";
+      vizCtx.fillStyle = "rgba(84, 84, 84, 0.85)"; // matches --accent
       for (let i = 0; i < BAR_COUNT; i++) {
         const [bin0, bin1] = barBinRanges[i];
         let sum = 0;

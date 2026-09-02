@@ -880,10 +880,10 @@ button {
 /* ---------------------------------------------------------
    Persistent audio player — a fixed corner widget, not part of the
    page flow, so it survives router-driven navigation between pages
-   untouched. Deliberately a fixed dark panel regardless of theme
-   (same reasoning as the lightbox scrim and the tile-index badge):
-   it's a small always-on-top control surface, not page content, so
-   it needs guaranteed contrast independent of the light/dark toggle.
+   untouched. Same white/greyscale palette as the rest of the site
+   (unlike the lightbox scrim and tile-index badge, which stay fixed
+   dark on purpose) — it's page-level chrome, not a viewing
+   environment, so it should read as part of the site.
 --------------------------------------------------------- */
 #site-player {
   position: fixed;
@@ -895,12 +895,12 @@ button {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: var(--scrim);
-  border: 1px solid rgba(242, 241, 236, 0.12);
-  color: var(--badge-ink);
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  color: var(--ink);
   font-family: var(--font-body);
   z-index: 20;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
 }
 #site-player[hidden] { display: none; }
 
@@ -928,7 +928,7 @@ button {
 .site-player-mini-next {
   flex: none;
   font-size: 14px;
-  color: rgba(242, 241, 236, 0.75);
+  color: var(--muted);
   padding: 8px;
 }
 
@@ -943,14 +943,14 @@ button {
   align-items: center;
   justify-content: space-between;
   padding: 10px 12px;
-  border-bottom: 1px solid rgba(242, 241, 236, 0.12);
+  border-bottom: 1px solid var(--hairline);
 }
 .site-player-now {
   font-family: var(--font-meta);
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: rgba(242, 241, 236, 0.55);
+  color: var(--muted);
 }
 .site-player-header-actions {
   display: flex;
@@ -959,18 +959,18 @@ button {
 }
 .site-player-collapse {
   display: none;
-  color: rgba(242, 241, 236, 0.55);
+  color: var(--muted);
   font-size: 14px;
   padding: 4px 6px;
 }
-.site-player-collapse:hover { color: var(--badge-ink); }
+.site-player-collapse:hover { color: var(--ink); }
 .site-player-close {
-  color: rgba(242, 241, 236, 0.55);
+  color: var(--muted);
   font-size: 12px;
   line-height: 1;
   padding: 4px;
 }
-.site-player-close:hover { color: var(--badge-ink); }
+.site-player-close:hover { color: var(--ink); }
 
 .site-player-track {
   display: flex;
@@ -988,7 +988,7 @@ button {
 .site-player-date {
   font-family: var(--font-meta);
   font-size: 10px;
-  color: rgba(242, 241, 236, 0.55);
+  color: var(--muted);
 }
 
 /* Drawn in a fixed 400x40 canvas coordinate space (see player.js) --
@@ -1017,7 +1017,7 @@ button {
   font-family: var(--font-meta);
   font-size: 8px;
   line-height: 1;
-  color: rgba(242, 241, 236, 0.4);
+  color: var(--muted-dim);
   white-space: nowrap;
 }
 
@@ -1025,18 +1025,16 @@ button {
   /* .audio-progress sets flex: 1 for its original row-flex context
      (.tile-audio-player) — here it's a direct child of the widget's
      column flex layout, where flex: 1 would grow it along the
-     vertical axis instead of behaving as a thin horizontal bar.
-     Background also needs a fixed override: .audio-progress uses
-     var(--hairline), which is tuned per-theme against the page's own
-     background, not this widget's fixed-dark one — in light theme
-     that resolves to a dark, near-invisible track. */
+     vertical axis instead of behaving as a thin horizontal bar. Its
+     background comes from .audio-progress's own var(--hairline) rule
+     — no override needed now that this widget uses the page's normal
+     light background too. */
   flex: none;
   margin: 10px 12px 0;
-  background: rgba(242, 241, 236, 0.14);
 }
 .site-player-time {
   margin: 6px 12px 0;
-  color: rgba(242, 241, 236, 0.55);
+  color: var(--muted);
 }
 
 .site-player-transport {
@@ -1048,13 +1046,13 @@ button {
 .site-player-prev, .site-player-next {
   flex: none;
   font-size: 14px;
-  color: rgba(242, 241, 236, 0.75);
+  color: var(--muted);
   padding: 6px;
 }
 .site-player-prev:hover, .site-player-next:hover { color: var(--accent); }
 .site-player-playpause {
-  border-color: rgba(242, 241, 236, 0.25);
-  color: var(--badge-ink);
+  border-color: var(--hairline);
+  color: var(--ink);
 }
 .site-player-playpause:hover { border-color: var(--accent); color: var(--accent); }
 
@@ -1063,7 +1061,7 @@ button {
   margin: 0;
   padding: 6px 0;
   overflow-y: auto;
-  border-top: 1px solid rgba(242, 241, 236, 0.12);
+  border-top: 1px solid var(--hairline);
 }
 .site-player-playlist-item button {
   display: flex;
@@ -1073,9 +1071,9 @@ button {
   padding: 7px 12px;
   text-align: left;
   font-size: 12px;
-  color: rgba(242, 241, 236, 0.75);
+  color: var(--muted);
 }
-.site-player-playlist-item button:hover { color: var(--badge-ink); }
+.site-player-playlist-item button:hover { color: var(--ink); }
 .site-player-playlist-item.is-current button { color: var(--accent); }
 .site-player-playlist-title {
   flex: 1 1 auto;
@@ -1088,7 +1086,7 @@ button {
   flex: none;
   font-family: var(--font-meta);
   font-size: 10px;
-  color: rgba(242, 241, 236, 0.5);
+  color: var(--muted-dim);
 }
 
 /* A small row of thumbnails for a piece shot more than once (see
