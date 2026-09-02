@@ -560,6 +560,22 @@ button {
 }
 .about-content a:hover { border-bottom-color: var(--accent); }
 
+.about-content p.about-links {
+  margin-top: 2em;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-meta);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.about-links-rule {
+  width: 1px;
+  height: 12px;
+  background: var(--hairline);
+}
+
 /* ---------------------------------------------------------
    Obituary page — shares .about-main/.about-content's layout and
    type scale, with a name/dates masthead on top of the same prose
