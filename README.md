@@ -75,6 +75,11 @@ Broad strokes:
   that opens a page-turning viewer (`book.js`) instead of the usual
   lightbox. See `images/bound-art-journal/` for a worked example, and
   `originals/` below for how its 125 source photos were handled.
+- **One piece, multiple photos** (an overall view plus a detail crop):
+  one entry, plus an `images` array (see `photos.js`'s field
+  reference) — the lightbox gets a small thumbnail row to switch
+  between them instead of the extra shot cluttering the grid as its
+  own tile.
 
 `tags` is optional and free-form on every type — every unique tag used
 anywhere automatically becomes a filter chip, so tagging consistently

@@ -34,6 +34,7 @@ function initIndexPage() {
   const lightboxTitle = document.getElementById("lightbox-title");
   const lightboxMeta = document.getElementById("lightbox-meta");
   const lightboxSpecs = document.getElementById("lightbox-specs");
+  const lightboxSubgallery = document.getElementById("lightbox-subgallery");
   const closeBtn = document.getElementById("lightbox-close");
   const prevBtn = document.getElementById("lightbox-prev");
   const nextBtn = document.getElementById("lightbox-next");
@@ -53,6 +54,7 @@ function initIndexPage() {
   let touchStartX = null;
   let isZoomed = false;
   let isPlainText = false;
+  let subIndex = 0; // which image of the current item's `images` array is showing
 
   function itemType(p) {
     return p.type || "photo";
@@ -516,6 +518,11 @@ function initIndexPage() {
             badge.className = "tile-book-badge";
             badge.textContent = "Journal";
             button.appendChild(badge);
+          } else if (imagesOf(photo).length > 1) {
+            const badge = document.createElement("span");
+            badge.className = "tile-book-badge";
+            badge.textContent = imagesOf(photo).length + " Photos";
+            button.appendChild(badge);
           }
         }
         button.appendChild(indexTag);
@@ -577,20 +584,68 @@ function initIndexPage() {
     syncUrl();
   }
 
+  // A piece shot more than once (an overall view plus a detail crop,
+  // say) carries an `images` array instead of cluttering the grid
+  // with a second tile -- always at least one entry (the primary
+  // file/alt), so callers don't need to special-case the common case
+  // of just one image.
+  function imagesOf(photo) {
+    return Array.isArray(photo.images) && photo.images.length ? photo.images : [{ file: photo.file, alt: photo.alt }];
+  }
+
+  function renderSubgallery(photo) {
+    const images = imagesOf(photo);
+    lightboxSubgallery.innerHTML = "";
+    if (images.length <= 1) {
+      lightboxSubgallery.hidden = true;
+      return;
+    }
+    lightboxSubgallery.hidden = false;
+    images.forEach((img, i) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "lightbox-subgallery-item" + (i === subIndex ? " is-active" : "");
+      btn.setAttribute("aria-label", img.alt || "View " + (i + 1));
+      const thumb = document.createElement("img");
+      thumb.src = img.file;
+      thumb.alt = "";
+      thumb.loading = "lazy";
+      btn.appendChild(thumb);
+      btn.addEventListener("click", () => setSubIndex(i));
+      lightboxSubgallery.appendChild(btn);
+    });
+  }
+
+  function setSubIndex(i) {
+    const photo = visiblePhotos[currentIndex];
+    const images = imagesOf(photo);
+    subIndex = Math.max(0, Math.min(i, images.length - 1));
+    const img = images[subIndex];
+    lightboxImage.src = img.file;
+    lightboxImage.alt = img.alt || "";
+    lightboxSubgallery.querySelectorAll(".lightbox-subgallery-item").forEach((btn, idx) => {
+      btn.classList.toggle("is-active", idx === subIndex);
+    });
+  }
+
   function updateLightbox() {
     const photo = visiblePhotos[currentIndex];
     const isText = itemType(photo) === "text";
     isPlainText = false;
+    subIndex = 0;
 
     lightboxImage.hidden = isText;
     lightboxText.hidden = !isText;
 
     if (isText) {
+      lightboxSubgallery.hidden = true;
       plainTextToggle.textContent = "Plain text";
       renderTextBody(photo, false);
     } else {
-      lightboxImage.src = photo.file;
-      lightboxImage.alt = photo.alt || "";
+      const images = imagesOf(photo);
+      lightboxImage.src = images[0].file;
+      lightboxImage.alt = images[0].alt || "";
+      renderSubgallery(photo);
     }
 
     lightboxIndex.textContent = "N\u00b0 " + pad(currentIndex + 1) + " / " + pad(visiblePhotos.length);
