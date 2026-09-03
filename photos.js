@@ -222,8 +222,6 @@ const PHOTOS = [
       { file: "images/art/painting-002.jpg", alt: "Untitled piece by Zakk Ziegler, full view" },
       { file: "images/art/painting-003.jpg", alt: "Untitled piece by Zakk Ziegler, closer view" },
     ] },
-  { type: "photo", file: "images/art/painting-004.jpg", title: "No. 4",
-    alt: "Untitled piece by Zakk Ziegler" },
   { type: "photo", file: "images/art/painting-005.jpg", title: "No. 5",
     alt: "Untitled piece by Zakk Ziegler" },
   { type: "photo", file: "images/art/painting-010.jpg", title: "No. 10",
@@ -259,6 +257,8 @@ const PHOTOS = [
 
   // Color studies from art school -- kept toward the back of the
   // section rather than mixed in with the rest.
+  { type: "photo", file: "images/art/painting-004.jpg", title: "No. 4",
+    alt: "Untitled piece by Zakk Ziegler" },
   { type: "photo", file: "images/art/painting-006.jpg", title: "No. 6",
     alt: "Untitled piece by Zakk Ziegler" },
   { type: "photo", file: "images/art/painting-007.jpg", title: "No. 7",

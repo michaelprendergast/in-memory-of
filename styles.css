@@ -3,7 +3,7 @@
    this is deliberately the one presentation the site has, in keeping
    with a memorial site's quieter, respectful tone. --scrim and the
    --badge-* pair stay near-black regardless: the lightbox stays a
-   dark viewing environment, and the tile-index badge sits on top of
+   dark viewing environment, and the tile-book-badge sits on top of
    arbitrary artwork so it needs guaranteed contrast.
 --------------------------------------------------------- */
 :root {
@@ -353,20 +353,7 @@ button {
   .tile-button:hover img, .tile-button:focus-visible img { transform: scale(1.03); }
 }
 
-.tile-index {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  font-family: var(--font-meta);
-  font-size: 11px;
-  color: var(--badge-ink);
-  background: var(--badge-bg);
-  padding: 3px 7px;
-  letter-spacing: 0.02em;
-}
-
-/* Marks a "bound object" tile (book.js) -- opposite corner from the
-   index badge, same visual language. */
+/* Marks a "bound object" tile (book.js), or a multi-photo tile. */
 .tile-book-badge {
   position: absolute;
   top: 12px;
@@ -881,7 +868,7 @@ button {
    Persistent audio player — a fixed corner widget, not part of the
    page flow, so it survives router-driven navigation between pages
    untouched. Same white/greyscale palette as the rest of the site
-   (unlike the lightbox scrim and tile-index badge, which stay fixed
+   (unlike the lightbox scrim and tile-book-badge, which stay fixed
    dark on purpose) — it's page-level chrome, not a viewing
    environment, so it should read as part of the site.
 --------------------------------------------------------- */

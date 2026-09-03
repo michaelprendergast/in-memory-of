@@ -377,10 +377,6 @@ function initIndexPage() {
       const figure = document.createElement("figure");
       figure.className = "tile";
 
-      const indexTag = document.createElement("span");
-      indexTag.className = "tile-index";
-      indexTag.textContent = "N\u00b0 " + pad(i + 1);
-
       const button = document.createElement("button");
       const isBook = isBookItem(photo);
       button.className =
@@ -445,7 +441,6 @@ function initIndexPage() {
           button.appendChild(badge);
         }
       }
-      button.appendChild(indexTag);
       figure.appendChild(button);
 
       // Reflects an already-playing track immediately rather than
