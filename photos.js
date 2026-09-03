@@ -226,14 +226,6 @@ const PHOTOS = [
     alt: "Untitled piece by Zakk Ziegler" },
   { type: "photo", file: "images/art/painting-005.jpg", title: "No. 5",
     alt: "Untitled piece by Zakk Ziegler" },
-  { type: "photo", file: "images/art/painting-006.jpg", title: "No. 6",
-    alt: "Untitled piece by Zakk Ziegler" },
-  { type: "photo", file: "images/art/painting-007.jpg", title: "No. 7",
-    alt: "Untitled piece by Zakk Ziegler" },
-  { type: "photo", file: "images/art/painting-008.jpg", title: "No. 8",
-    alt: "Untitled piece by Zakk Ziegler" },
-  { type: "photo", file: "images/art/painting-009.jpg", title: "No. 9",
-    alt: "Untitled piece by Zakk Ziegler" },
   { type: "photo", file: "images/art/painting-010.jpg", title: "No. 10",
     alt: "Untitled piece by Zakk Ziegler" },
   { type: "photo", file: "images/art/painting-011.jpg", title: "No. 11",
@@ -263,6 +255,17 @@ const PHOTOS = [
   { type: "photo", file: "images/art/painting-023.jpg", title: "No. 23",
     alt: "Untitled piece by Zakk Ziegler" },
   { type: "photo", file: "images/art/painting-024.jpg", title: "No. 24",
+    alt: "Untitled piece by Zakk Ziegler" },
+
+  // Color studies from art school -- kept toward the back of the
+  // section rather than mixed in with the rest.
+  { type: "photo", file: "images/art/painting-006.jpg", title: "No. 6",
+    alt: "Untitled piece by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-007.jpg", title: "No. 7",
+    alt: "Untitled piece by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-008.jpg", title: "No. 8",
+    alt: "Untitled piece by Zakk Ziegler" },
+  { type: "photo", file: "images/art/painting-009.jpg", title: "No. 9",
     alt: "Untitled piece by Zakk Ziegler" },
 
   // Wall art and sculpture, added 2026-09-02 -- same placeholder note.
