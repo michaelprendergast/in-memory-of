@@ -618,6 +618,7 @@ button {
   margin-top: 56px;
   padding-top: 28px;
   border-top: 1px solid var(--hairline);
+  font-weight: 600;
 }
 
 /* ---------------------------------------------------------
