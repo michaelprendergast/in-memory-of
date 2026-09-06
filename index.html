@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>In Memory of Zakk Ziegler</title>
-<meta name="description" content="Zakk Ziegler's art, music, and writing.">
+<meta name="description" content="Zakk Ziegler's art, music, and writing, gathered for family and friends.">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="favicon.ico" sizes="16x16">
 
@@ -15,10 +15,10 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://zakkziegler.com/">
 <meta property="og:title" content="Porco Dio Art">
-<meta property="og:description" content="Zakk Ziegler's art, music, and writing.">
+<meta property="og:description" content="Zakk Ziegler's art, music, and writing, gathered for family and friends.">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Porco Dio Art">
-<meta name="twitter:description" content="Zakk Ziegler's art, music, and writing.">
+<meta name="twitter:description" content="Zakk Ziegler's art, music, and writing, gathered for family and friends.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,6 +32,7 @@
   <div class="header-right">
     <nav class="site-nav" aria-label="Site pages">
       <a href="index.html" aria-current="page">Home</a>
+      <a href="gallery.html">Gallery</a>
       <a href="about.html">About</a>
       <a href="obituary.html">Obituary</a>
     </nav>
@@ -45,62 +46,47 @@
   <p class="hero-dates">March 10, 1992 &ndash; August 19, 2026</p>
 </section>
 
-<div class="nav-row">
-  <nav class="type-nav" id="type-nav" aria-label="Filter by section" hidden>
-    <!-- populated by script.js: Artwork / Photography / Sculpture /
-         Text / Audio / All. Sections with no entries yet just fall
-         through to the empty state. -->
-  </nav>
-  <div class="nav-utility">
-    <input class="search-input" id="search-input" type="search" placeholder="Search" aria-label="Search everything on the site">
-    <button class="shuffle-btn" id="shuffle-btn" type="button" aria-label="Open a random entry">Random</button>
+<main class="about-main landing-main">
+  <div class="about-content">
+    <p>Zakk was driven by an appreciation of art in all its forms &ndash; painting, music, film, and the written word. Self-taught and prolific, he shared his love of painting by teaching color theory to schoolchildren through the Greene County Parks and Recreation, and he made his own music from guitar loops, synthesizer samples, and found audio. Above all, he was a devoted father to his son, Lucien.</p>
+    <p>This site gathers his paintings, music, and writing in one place for family and friends. <a href="obituary.html">Read Zakk&rsquo;s full obituary &rarr;</a></p>
   </div>
-</div>
 
-<nav class="location-nav" id="location-nav" aria-label="Filter by location" hidden>
-  <!-- populated by script.js: "All" plus one chip per distinct location —
-       only shown within the Artwork section -->
-</nav>
-
-<nav class="filters" id="filters" aria-label="Filter by tag">
-  <!-- populated by script.js: "All" plus one chip per tag used in the
-       active section — hidden while the top-level section is "All" -->
-</nav>
-
-<main>
-  <section class="gallery" id="gallery" aria-label="Index">
-    <!-- populated by script.js from photos.js -->
-  </section>
-
-  <p class="empty-state" id="empty-state" hidden>
-    Nothing indexed yet.<br>
-    Add a file to <code>/images</code>, <code>/audio</code>, or <code>/text</code>, and register it in <code>photos.js</code>.
-  </p>
-</main>
-
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Item view" aria-hidden="true">
-  <button class="lightbox-copy-link" id="lightbox-copy-link" type="button" aria-label="Copy link to this item">Copy link</button>
-  <button class="lightbox-close" id="lightbox-close" aria-label="Close">&#10005;</button>
-  <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous item">&#8592;</button>
-  <figure class="lightbox-figure">
-    <img id="lightbox-image" src="" alt="">
-    <div class="lightbox-text" id="lightbox-text" hidden>
-      <button class="plain-text-toggle" id="plain-text-toggle" type="button">Plain text</button>
-      <div class="lightbox-text-body" id="lightbox-text-body"></div>
+  <div class="explore">
+    <p class="explore-label">Explore his work</p>
+    <div class="explore-grid">
+      <a class="explore-card" href="gallery.html?type=photo">
+        <span class="explore-card-title">Artwork</span>
+        <span class="explore-card-desc">Paintings and prints</span>
+      </a>
+      <a class="explore-card" href="gallery.html?type=photography">
+        <span class="explore-card-title">Photography</span>
+        <span class="explore-card-desc">Photos he took</span>
+      </a>
+      <a class="explore-card" href="gallery.html?type=sculpture">
+        <span class="explore-card-title">Sculpture</span>
+        <span class="explore-card-desc">Physical and mixed-media pieces</span>
+      </a>
+      <a class="explore-card" href="gallery.html?type=text">
+        <span class="explore-card-title">Text</span>
+        <span class="explore-card-desc">His writing</span>
+      </a>
+      <a class="explore-card" href="gallery.html?type=audio">
+        <span class="explore-card-title">Audio</span>
+        <span class="explore-card-desc">Music he made</span>
+      </a>
+      <a class="explore-card" href="gallery.html?type=sales">
+        <span class="explore-card-title">Sales <span class="explore-card-badge">Coming soon</span></span>
+        <span class="explore-card-desc">Prints of his work</span>
+      </a>
     </div>
-    <div class="lightbox-subgallery" id="lightbox-subgallery" hidden></div>
-    <figcaption>
-      <div class="lightbox-caption-line">
-        <span class="lightbox-index" id="lightbox-index"></span>
-        <span class="lightbox-title" id="lightbox-title"></span>
-        <span class="lightbox-meta" id="lightbox-meta"></span>
-      </div>
-      <div class="lightbox-specs" id="lightbox-specs"></div>
-    </figcaption>
-  </figure>
-  <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next item">&#8594;</button>
-  <p class="lightbox-hint" aria-hidden="true">&larr; &rarr; Navigate &middot; Click Center to Zoom &middot; Esc Close &middot; Swipe on Touch</p>
-</div>
+    <p class="explore-all"><a href="gallery.html">Or browse everything &rarr;</a></p>
+  </div>
+
+  <div class="about-content landing-note">
+    <p>The family has started a fund to support the care and needs of Lucien, who was the brightest light in his life. To learn more about this, please email his aunt Kim at <a href="mailto:kprendergast01@gmail.com">kprendergast01@gmail.com</a>.</p>
+  </div>
+</main>
 </div>
 
 <footer class="site-footer">

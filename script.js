@@ -13,7 +13,11 @@ function initIndexPage() {
   // ones have entries yet — sections with nothing in them just show
   // the existing empty state rather than being hidden from the nav.
   // "All" is last and never the default — the site opens on Artwork.
-  const TYPES = ["photo", "photography", "sculpture", "text", "audio", "all"];
+  // "Sales" is a placeholder for prints of his work (via Shopify,
+  // eventually) -- there's no "sales"-type entry in photos.js yet, so
+  // it always falls through to the empty state, which shows a
+  // coming-soon message instead of the usual one (see renderGallery).
+  const TYPES = ["photo", "photography", "sculpture", "text", "audio", "sales", "all"];
   const TYPE_LABELS = {
     all: "All",
     photo: "Artwork",
@@ -21,6 +25,7 @@ function initIndexPage() {
     sculpture: "Sculpture",
     text: "Text",
     audio: "Audio",
+    sales: "Sales",
   };
   const DEFAULT_TYPE = "photo";
 
@@ -363,6 +368,11 @@ function initIndexPage() {
     gallery.innerHTML = "";
 
     if (visiblePhotos.length === 0) {
+      emptyState.innerHTML =
+        activeType === "sales"
+          ? "Prints of Zakk&rsquo;s work aren&rsquo;t available yet &ndash; check back soon."
+          : "Nothing indexed yet.<br>" +
+            "Add a file to <code>/images</code>, <code>/audio</code>, or <code>/text</code>, and register it in <code>photos.js</code>.";
       emptyState.hidden = false;
       return;
     }

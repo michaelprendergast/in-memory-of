@@ -13,7 +13,7 @@
   // #view region for some reason, it just falls back to a real
   // navigation rather than breaking.
 
-  const ROUTES = new Set(["", "index.html", "about.html", "obituary.html"]);
+  const ROUTES = new Set(["", "index.html", "gallery.html", "about.html", "obituary.html"]);
 
   function pageName(pathname) {
     return pathname.split("/").pop() || "index.html";
@@ -29,12 +29,11 @@
 
   function runPageInit(pathname) {
     const page = pageName(pathname);
-    if (page === "about.html" || page === "obituary.html") {
-      // static content, nothing to initialize
-    } else {
-      // "" and "index.html" -- the hero + gallery homepage
+    if (page === "gallery.html") {
       if (window.initIndexPage) window.initIndexPage();
     }
+    // "", "index.html" (the landing page), "about.html", and
+    // "obituary.html" are all static content -- nothing to initialize.
   }
 
   // Guards against out-of-order fetches: if two navigations are ever

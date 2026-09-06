@@ -11,14 +11,15 @@ point.
 
 ## Architecture
 
-`index.html` is a static shell: a hero (name, dates, a one-line
-summary), then empty containers for the filter bar, gallery, and
-lightbox. All content lives in `photos.js`, a plain array of objects
-assigned to `window.PHOTOS`. `script.js` reads that array on load and
-renders everything client-side: grid tiles, tag filter chips, the
-lightbox, and inline audio playback. There's no templating and no
-build step — editing `photos.js` and pushing is the entire publishing
-workflow.
+`index.html` is the landing page — hero, a short intro, an "explore"
+card linking to each section, and a donations note; all static, no
+JS-rendered content. `gallery.html` is the actual browsable site: a
+static shell (hero, then empty containers for the filter bar, gallery,
+and lightbox) that `script.js` fills in at load time from `photos.js`,
+a plain array of objects assigned to `window.PHOTOS` — grid tiles, tag
+filter chips, the lightbox, and inline audio playback. There's no
+templating and no build step — editing `photos.js` and pushing is the
+entire publishing workflow.
 
 There used to be two parallel homepage layouts here, inherited from
 the personal-site template this was built from: a fixed-background
@@ -37,12 +38,17 @@ glance. All colors and fonts are CSS custom properties at the top of
 ## Structure
 
 ```
-index.html      the whole site's homepage — hero, then the gallery
+index.html      the landing page — hero, a short intro, links out to
+                each section (Artwork/Photography/Sculpture/Text/Audio/
+                Sales), and a donations note
+gallery.html    hero again, then the actual browsable gallery — type
+                tabs, filters, search, the tile grid and lightbox
 about.html      a short note about the site
 obituary.html   the obituary
 styles.css      all styling; design tokens (color, type) at the top
 photos.js       the content manifest — the only file edited routinely
-script.js       renders the hero page + gallery from photos.js
+script.js       renders gallery.html's filter bar + tile grid from
+                photos.js (index.html is static, nothing to render)
 book.js         the page-turning viewer for "bound object" entries
 player.js       the persistent corner audio player
 router.js       lightweight client-side navigation between pages
@@ -148,3 +154,9 @@ or two; a hard refresh clears any stale cached copy of the page.
   drop a new one in the repo root and it'll pick up automatically.
 - Actual artwork, music, and writing in `photos.js` (see "Adding
   content" above).
+- The Sales tab (`gallery.html?type=sales`) is a "coming soon"
+  placeholder — there's no `"sales"`-type content and no checkout yet.
+  When prints go on sale (likely via Shopify), it'll need either real
+  `"sales"` entries in `photos.js` or a dedicated integration; either
+  way, the tab and its empty-state message are already wired up in
+  `script.js` (search for `"sales"`).
