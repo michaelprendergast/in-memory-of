@@ -493,6 +493,12 @@ button {
   padding: 120px var(--edge);
   line-height: 1.8;
 }
+.empty-state-photo {
+  display: block;
+  width: 220px;
+  margin: 0 auto 20px;
+  filter: grayscale(0.25) brightness(0.92);
+}
 .empty-state code {
   background: var(--grid-line);
   padding: 1px 5px;

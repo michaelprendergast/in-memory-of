@@ -370,7 +370,8 @@ function initIndexPage() {
     if (visiblePhotos.length === 0) {
       emptyState.innerHTML =
         activeType === "sales"
-          ? "Prints of Zakk&rsquo;s work aren&rsquo;t available yet &ndash; check back soon."
+          ? '<img class="empty-state-photo" src="images/sales/zakk-and-lucien-car.jpg" alt="Zakk and his son Lucien">' +
+            "<br>Prints of Zakk&rsquo;s work aren&rsquo;t available yet &ndash; check back soon."
           : "Nothing indexed yet.<br>" +
             "Add a file to <code>/images</code>, <code>/audio</code>, or <code>/text</code>, and register it in <code>photos.js</code>.";
       emptyState.hidden = false;
