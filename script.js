@@ -666,9 +666,14 @@ function initIndexPage() {
     "touchend",
     (e) => {
       if (touchStartX === null) return;
-      // While the page itself is pinch-zoomed in, a one-finger drag is
-      // panning around the zoomed view, not a swipe -- don't read it
-      // as one.
+      // While zoomed in -- either our own tap-to-zoom (isZoomed) or
+      // the browser's real pinch-zoom (visualViewport.scale) -- a
+      // one-finger drag is panning around the zoomed view, not a
+      // swipe -- don't read it as one.
+      if (isZoomed) {
+        touchStartX = null;
+        return;
+      }
       if (window.visualViewport && window.visualViewport.scale > 1.01) {
         touchStartX = null;
         return;
