@@ -123,6 +123,14 @@ button {
   object-fit: cover;
   object-position: center 22%;
   border: 1px solid var(--hairline);
+  cursor: zoom-in;
+  transition: opacity 0.2s ease;
+}
+.hero-portrait:hover,
+.hero-portrait:focus-visible,
+.landing-closing-portrait:hover,
+.landing-closing-portrait:focus-visible {
+  opacity: 0.85;
 }
 .hero-name {
   margin: 0 0 0.15em;
@@ -652,6 +660,8 @@ button {
   object-fit: cover;
   object-position: center 22%;
   border: 1px solid var(--hairline);
+  cursor: zoom-in;
+  transition: opacity 0.2s ease;
 }
 
 /* ---------------------------------------------------------
@@ -1258,7 +1268,7 @@ button {
 
 .lightbox-close, .lightbox-nav {
   position: absolute;
-  color: var(--ink);
+  color: var(--badge-ink);
   font-size: 18px;
   padding: 12px;
   z-index: 1;

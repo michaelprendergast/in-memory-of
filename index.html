@@ -41,7 +41,7 @@
 
 <div id="view">
 <section class="hero">
-  <img class="hero-portrait" src="images/portraits/self-portrait-2.jpg" alt="Self-portrait by Zakk Ziegler">
+  <img class="hero-portrait" src="images/portraits/self-portrait-2.jpg" alt="Self-portrait by Zakk Ziegler" role="button" tabindex="0" aria-label="Open self-portrait full size">
   <h1 class="hero-name">Zakk Ziegler</h1>
   <p class="hero-subtitle">Porco Dio Art</p>
   <p class="hero-dates">March 10, 1992 &ndash; August 19, 2026</p>
@@ -86,9 +86,16 @@
 
   <div class="about-content landing-note">
     <p>The family has started a fund to support the care and needs of Lucien, who was the brightest light in his life. To learn more about this, please email his aunt Kim at <a href="mailto:kprendergast01@gmail.com">kprendergast01@gmail.com</a>. All proceeds from the sale of Zakk&rsquo;s artwork go to Lucien.</p>
-    <img class="landing-closing-portrait" src="images/portraits/self-portrait-1.jpg" alt="Self-portrait by Zakk Ziegler">
+    <img class="landing-closing-portrait" src="images/portraits/self-portrait-1.jpg" alt="Self-portrait by Zakk Ziegler" role="button" tabindex="0" aria-label="Open self-portrait full size">
   </div>
 </main>
+
+<div class="lightbox" id="portrait-lightbox" role="dialog" aria-modal="true" aria-label="Portrait view" aria-hidden="true">
+  <button class="lightbox-close" id="portrait-lightbox-close" aria-label="Close">&#10005;</button>
+  <figure class="lightbox-figure">
+    <img id="portrait-lightbox-image" src="" alt="">
+  </figure>
+</div>
 </div>
 
 <footer class="site-footer">
@@ -103,5 +110,6 @@
 <script src="player.js"></script>
 <script src="book.js"></script>
 <script src="router.js"></script>
+<script src="landing.js"></script>
 </body>
 </html>

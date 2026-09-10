@@ -52,6 +52,8 @@ script.js       renders gallery.html's filter bar + tile grid from
 book.js         the page-turning viewer for "bound object" entries
 player.js       the persistent corner audio player
 router.js       lightweight client-side navigation between pages
+landing.js      index.html only -- click-to-open lightbox for the two
+                self-portraits on the landing page
 stats.js        the computed count/date-range line in the footer
 images/         artwork, organized however makes sense (e.g. images/art/)
 audio/          music, e.g. audio/music/
