@@ -631,20 +631,13 @@ function initIndexPage() {
     if (e.target === lightbox) closeLightbox();
   });
 
-  // Tap zones: clicking the left/right third of the image steps
-  // through the set, same as the arrow buttons — useful on phones
-  // where the arrow buttons sit near the screen edge. The center
-  // third toggles a zoomed, scrollable full-resolution view instead.
-  lightboxImage.addEventListener("click", (e) => {
-    if (isZoomed) {
-      setZoomed(false);
-      return;
-    }
-    const rect = lightboxImage.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    if (x < rect.width / 3) step(-1);
-    else if (x > (rect.width * 2) / 3) step(1);
-    else setZoomed(true);
+  // Clicking the image toggles a zoomed, scrollable full-resolution
+  // view. Navigation is left to the arrow buttons, arrow keys, and
+  // swipe -- this used to also step through the set when clicking the
+  // outer thirds of the image, but that kept firing when people just
+  // wanted to zoom in on that part of the picture.
+  lightboxImage.addEventListener("click", () => {
+    setZoomed(!isZoomed);
   });
 
   // Swipe navigation for touch devices. A second finger touching down
