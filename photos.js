@@ -292,8 +292,6 @@ const PHOTOS = [
     alt: "Untitled piece by Zakk Ziegler" },
   { type: "photo", file: "images/art/painting-056.jpg", title: "No. 56",
     alt: "Untitled piece by Zakk Ziegler" },
-  { type: "photo", file: "images/art/painting-057.jpg", title: "No. 57",
-    alt: "Untitled piece by Zakk Ziegler" },
   { type: "photo", file: "images/art/painting-058.jpg", title: "No. 58",
     alt: "Untitled piece by Zakk Ziegler" },
   { type: "photo", file: "images/art/painting-059.jpg", title: "No. 59",
