@@ -110,6 +110,20 @@ button {
   text-align: center;
   border-bottom: 1px solid var(--hairline);
 }
+/* Only present on the landing page's hero -- a watercolor self-portrait
+   as a quiet, personal welcome above his name. Kept in its own color
+   (not desaturated like gallery tiles) since the blue wash is part of
+   the piece. */
+.hero-portrait {
+  display: block;
+  width: 148px;
+  height: 148px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 22%;
+  border: 1px solid var(--hairline);
+}
 .hero-name {
   margin: 0 0 0.15em;
   font-family: var(--font-display);
@@ -625,6 +639,19 @@ button {
   padding-top: 28px;
   border-top: 1px solid var(--hairline);
   font-weight: 600;
+}
+/* Closing bookend to .hero-portrait above -- same treatment, a little
+   smaller since it's a quiet sign-off rather than the page's opening
+   image. */
+.landing-closing-portrait {
+  display: block;
+  width: 116px;
+  height: 116px;
+  margin: 32px auto 0;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 22%;
+  border: 1px solid var(--hairline);
 }
 
 /* ---------------------------------------------------------
