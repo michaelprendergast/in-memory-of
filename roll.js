@@ -37,6 +37,53 @@
     '<p class="roll-progress" aria-live="polite"></p>';
   document.body.appendChild(overlay);
 
+  // A second overlay, layered on top of the roll viewer, for zooming
+  // into a single tapped frame -- reuses the main gallery lightbox's
+  // own .lightbox/.lightbox-figure classes (styles.css) for the same
+  // tap-to-zoom-to-native-resolution behavior, rather than trying to
+  // make an individual frame zoomable in place inside the strip: that
+  // strip already owns horizontal touch-scrolling for paging between
+  // frames, and nesting a second, pannable zoomed scroll area inside a
+  // horizontally-scrolling one is exactly the kind of touch-gesture
+  // ambiguity that's simplest to just not create.
+  const frameLightbox = document.createElement("div");
+  frameLightbox.id = "roll-frame-lightbox";
+  frameLightbox.className = "lightbox";
+  frameLightbox.setAttribute("role", "dialog");
+  frameLightbox.setAttribute("aria-modal", "true");
+  frameLightbox.setAttribute("aria-label", "Frame view");
+  frameLightbox.setAttribute("aria-hidden", "true");
+  frameLightbox.innerHTML =
+    '<button class="lightbox-close" type="button" aria-label="Close">&#10005;</button>' +
+    '<figure class="lightbox-figure"><img src="" alt=""></figure>';
+  document.body.appendChild(frameLightbox);
+
+  const frameLightboxImg = frameLightbox.querySelector("img");
+  const frameLightboxFigure = frameLightbox.querySelector(".lightbox-figure");
+  const frameLightboxClose = frameLightbox.querySelector(".lightbox-close");
+  let frameZoomed = false;
+
+  function openFrameLightbox(img) {
+    frameLightboxImg.src = img.src;
+    frameLightboxImg.alt = img.alt;
+    frameZoomed = false;
+    frameLightboxFigure.classList.remove("is-zoomed");
+    frameLightbox.classList.add("is-open");
+    frameLightbox.setAttribute("aria-hidden", "false");
+  }
+  function closeFrameLightbox() {
+    frameLightbox.classList.remove("is-open");
+    frameLightbox.setAttribute("aria-hidden", "true");
+  }
+  frameLightboxImg.addEventListener("click", () => {
+    frameZoomed = !frameZoomed;
+    frameLightboxFigure.classList.toggle("is-zoomed", frameZoomed);
+  });
+  frameLightboxClose.addEventListener("click", closeFrameLightbox);
+  frameLightbox.addEventListener("click", (e) => {
+    if (e.target === frameLightbox) closeFrameLightbox();
+  });
+
   const titleEl = overlay.querySelector(".roll-title");
   const metaEl = overlay.querySelector(".roll-meta");
   const strip = overlay.querySelector(".roll-strip");
@@ -97,6 +144,7 @@
       img.src = f.file;
       img.alt = f.alt || "";
       img.loading = i === 0 ? "eager" : "lazy";
+      img.addEventListener("click", () => openFrameLightbox(img));
       wrap.appendChild(img);
       strip.appendChild(wrap);
     });
@@ -120,6 +168,7 @@
 
   function close() {
     if (overlay.hidden) return;
+    closeFrameLightbox();
     overlay.hidden = true;
     overlay.setAttribute("aria-hidden", "true");
     document.removeEventListener("keydown", onKeydown);
@@ -128,7 +177,15 @@
   }
 
   function onKeydown(e) {
-    if (e.key === "Escape") close();
+    if (e.key === "Escape") {
+      if (frameLightbox.classList.contains("is-open")) closeFrameLightbox();
+      else close();
+      return;
+    }
+    // Arrow keys page between frames -- but not while the frame
+    // lightbox has one open for a closer look, since at that point
+    // they're examining one frame, not browsing the strip.
+    if (frameLightbox.classList.contains("is-open")) return;
     if (e.key === "ArrowRight") step(1);
     if (e.key === "ArrowLeft") step(-1);
   }
