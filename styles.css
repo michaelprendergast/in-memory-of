@@ -994,6 +994,125 @@ button {
 }
 
 /* ---------------------------------------------------------
+   Roll viewer (roll.js) — a dedicated horizontal filmstrip overlay for
+   "film roll" entries, built and appended to <body> the same way as
+   the book viewer above. Visually modeled on it too (same scrim, same
+   corner close button), but navigation rides on real horizontal
+   scrolling with scroll-snap rather than a custom page-turn -- a roll
+   is just one frame after another, so native swipe/trackpad/scrollbar
+   already does the right thing.
+--------------------------------------------------------- */
+.roll-viewer {
+  position: fixed;
+  inset: 0;
+  background: var(--scrim);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: var(--edge);
+}
+.roll-viewer:not([hidden]) { display: flex; }
+
+.roll-header {
+  text-align: center;
+  margin: 0 0 18px;
+}
+.roll-title {
+  margin: 0 0 4px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--badge-ink);
+}
+.roll-meta {
+  margin: 0;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-dim);
+}
+
+.roll-stage {
+  position: relative;
+  width: 100%;
+  max-width: min(1200px, 100%);
+}
+
+.roll-strip {
+  display: flex;
+  gap: var(--edge);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+}
+.roll-strip-item {
+  flex: none;
+  width: 100%;
+  scroll-snap-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.roll-strip-item img {
+  display: block;
+  max-height: 72vh;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.roll-close {
+  position: absolute;
+  top: 18px;
+  right: var(--edge);
+  color: var(--badge-ink);
+  font-size: 18px;
+  padding: 12px;
+  z-index: 1;
+}
+
+/* A small solid backdrop behind prev/next -- unlike the book viewer's
+   nav arrows (which only ever sit over the fixed dark scrim), these
+   sit directly over scrolling frame content that can be just as light
+   as the icon itself. */
+.roll-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--badge-bg);
+  color: var(--badge-ink);
+  font-size: 16px;
+}
+.roll-prev { left: 8px; }
+.roll-next { right: 8px; }
+.roll-nav[disabled] { opacity: 0.25; cursor: default; }
+
+.roll-progress {
+  margin: 14px 0 0;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-dim);
+}
+
+@media (max-width: 720px) {
+  .roll-strip-item img { max-height: 60vh; }
+}
+
+/* ---------------------------------------------------------
    Persistent audio player — a fixed corner widget, not part of the
    page flow, so it survives router-driven navigation between pages
    untouched. Same white/greyscale palette as the rest of the site

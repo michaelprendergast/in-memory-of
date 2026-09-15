@@ -50,6 +50,7 @@ photos.js       the content manifest — the only file edited routinely
 script.js       renders gallery.html's filter bar + tile grid from
                 photos.js (index.html is static, nothing to render)
 book.js         the page-turning viewer for "bound object" entries
+roll.js         the horizontal filmstrip viewer for "film roll" entries
 player.js       the persistent corner audio player
 router.js       lightweight client-side navigation between pages
 landing.js      index.html only -- click-to-open lightbox for the two
@@ -92,6 +93,12 @@ Broad strokes:
   reference) — the lightbox gets a small thumbnail row to switch
   between them instead of the extra shot cluttering the grid as its
   own tile.
+- **Film rolls** (a scanned roll of 35mm negatives — meant to be
+  browsed together, not scattered through the Photography tab as
+  separate frames): still one `photography` entry, plus a `frames`
+  array (cover first) and optionally `film`/`note`. Renders as a
+  single tile with an "N Frames" badge that opens a horizontal
+  filmstrip viewer (`roll.js`) instead of the usual lightbox.
 
 `tags` is optional and free-form on every type — every unique tag used
 anywhere automatically becomes a filter chip, so tagging consistently

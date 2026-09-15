@@ -72,6 +72,13 @@ function initIndexPage() {
     return Array.isArray(p.pages) && p.pages.length > 0;
   }
 
+  // A film roll -- a photography-type entry with an ordered `frames`
+  // array (see photos.js's field reference) -- opens roll.js's
+  // horizontal filmstrip viewer instead of the normal lightbox.
+  function isRollItem(p) {
+    return Array.isArray(p.frames) && p.frames.length > 0;
+  }
+
   // Verse: literal line breaks + blank-line stanza breaks, no special
   // per-poem indentation or effects. Prose: a single justified block,
   // reflowing normally. This is a deliberately simplified, consistent
@@ -155,6 +162,10 @@ function initIndexPage() {
   function metaLine(photo) {
     const parts = [photo.date, photo.location].filter(Boolean);
     if (isBookItem(photo)) parts.push(photo.pages.length - 1 + " pages");
+    if (isRollItem(photo)) {
+      if (photo.film) parts.push(photo.film);
+      parts.push(photo.frames.length + " frames");
+    }
     if (itemType(photo) === "audio" && photo.duration) parts.push(photo.duration);
     return parts.join(" \u00b7 ");
   }
@@ -390,6 +401,7 @@ function initIndexPage() {
 
       const button = document.createElement("button");
       const isBook = isBookItem(photo);
+      const isRoll = isRollItem(photo);
       button.className =
         "tile-button" + (isText ? " tile-button--text" : "") + (isAudio ? " tile-audio tile-button--audio" : "");
       button.type = "button";
@@ -403,11 +415,17 @@ function initIndexPage() {
       } else {
         button.setAttribute(
           "aria-label",
-          isBook ? "Open " + (photo.title || "bound journal") : "Open " + (photo.title || "photograph") + " full size"
+          isBook
+            ? "Open " + (photo.title || "bound journal")
+            : isRoll
+            ? "Open " + (photo.title || "film roll")
+            : "Open " + (photo.title || "photograph") + " full size"
         );
         button.addEventListener("click", () => {
           if (isBook) {
             if (window.SiteBook) window.SiteBook.open(photo);
+          } else if (isRoll) {
+            if (window.SiteRoll) window.SiteRoll.open(photo);
           } else {
             openLightbox(i);
           }
@@ -444,6 +462,11 @@ function initIndexPage() {
           const badge = document.createElement("span");
           badge.className = "tile-book-badge";
           badge.textContent = "Journal";
+          button.appendChild(badge);
+        } else if (isRoll) {
+          const badge = document.createElement("span");
+          badge.className = "tile-book-badge";
+          badge.textContent = photo.frames.length + " Frames";
           button.appendChild(badge);
         } else if (imagesOf(photo).length > 1) {
           const badge = document.createElement("span");

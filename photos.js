@@ -47,6 +47,21 @@
               spreads of two pages at a time (one at a time on
               narrow screens), starting from the closed cover.
 
+  --- Film rolls (type: "photography" + a `frames` array) ---
+  For a scanned roll of film — meant to be browsed together as one
+  roll, not as separate photos scattered through the Photography tab.
+  One entry still, same required fields as any "photography" entry
+  (file/alt here should be the cover frame), plus:
+    frames    ordered array of { file, alt }. The tile shows the cover
+              and an "N Frames" badge, and opens a horizontal
+              filmstrip viewer instead of the usual lightbox — swipe,
+              scroll, or use the arrows to move frame to frame.
+  Optional:
+    film      the film stock, e.g. "Ilford FP4 Plus 125" — shown in
+              the viewer's header alongside the date.
+    note      a short freeform note about the roll, e.g. "Shot over
+              about three months" — shown in the viewer's header too.
+
   --- Music (type: "audio") ---
   Required: type, file (e.g. "audio/music/song.mp3"), cover (a still
             image, e.g. "images/music/song.jpg" — the tile shows this,
@@ -359,6 +374,31 @@ const PHOTOS = [
     alt: "Untitled piece by Zakk Ziegler" },
   { type: "photo", file: "images/art/painting-009.jpg", title: "No. 9",
     alt: "Untitled piece by Zakk Ziegler" },
+
+  // Photography -- scanned film rolls, added 2026-09-14. See "Film
+  // rolls" above for the `frames` field reference.
+  { type: "photography", file: "images/photography/ilford-fp4-plus-125-2014-12/frame-01.jpg",
+    title: "No. 1", date: "2014-12-29", film: "Ilford FP4 Plus 125",
+    note: "Shot over about three months",
+    alt: "Black-and-white photograph by Zakk Ziegler",
+    frames: [
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-01.jpg", alt: "White irises against a fence" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-02.jpg", alt: "A weathered wooden building" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-03.jpg", alt: "White irises in a garden" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-04.jpg", alt: "A cobblestone street" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-05.jpg", alt: "A flower in close-up" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-06.jpg", alt: "The corner of a wooden building" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-07.jpg", alt: "The corner of a wooden building" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-08.jpg", alt: "A weathered wooden building" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-09.jpg", alt: "A weathered wooden building" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-10.jpg", alt: "A candid portrait, in motion" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-11.jpg", alt: "A tree-lined path" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-12.jpg", alt: "A tree-lined path" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-13.jpg", alt: "A flower in close-up" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-14.jpg", alt: "A figure seen through a railing" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-15.jpg", alt: "A woman's portrait" },
+      { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-16.jpg", alt: "Dried plants in close-up" },
+    ] },
 
   // Wall art and sculpture, added 2026-09-02 -- same placeholder note.
   { type: "sculpture", file: "images/sculpture/sculpture-001.jpg", title: "No. 1", tags: ["sculpture"],
