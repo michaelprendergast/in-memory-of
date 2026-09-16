@@ -22,7 +22,7 @@ function initIndexPage() {
     all: "All",
     photo: "Artwork",
     photography: "Photography",
-    sculpture: "Sculpture",
+    sculpture: "Mixed Media",
     text: "Text",
     audio: "Audio",
     sales: "Sales",

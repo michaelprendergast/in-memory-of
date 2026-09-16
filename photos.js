@@ -576,26 +576,20 @@ const PHOTOS = [
       { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-16.jpg", alt: "Dried plants in close-up" },
     ] },
 
-  // Flat-scanned Instax and Polaroid prints, added 2026-09-15 -- loose
-  // instant photos, not a film roll, so no `frames` field.
+  // Flat-scanned Instax and Polaroid prints, added 2026-09-15 -- not a
+  // 35mm roll, but grouped the same way (one `frames` set) rather than
+  // as separate tiles; no per-frame titles.
   { type: "photography", file: "images/photography/flat-scanned-instax-polaroid/instax-01.jpg",
-    title: "Storage Building",
-    alt: "A row of storage units under a partly cloudy sky, with a truck parked out front" },
-  { type: "photography", file: "images/photography/flat-scanned-instax-polaroid/instax-02.jpg",
-    title: "Church",
-    alt: "A yellow church with a tall steeple against a blue sky" },
-  { type: "photography", file: "images/photography/flat-scanned-instax-polaroid/instax-03.jpg",
-    title: "Mausoleum",
-    alt: "A stone mausoleum entrance with an urn inside" },
-  { type: "photography", file: "images/photography/flat-scanned-instax-polaroid/instax-04.jpg",
-    title: "Playground",
-    alt: "A playground's monkey bars silhouetted at dusk" },
-  { type: "photography", file: "images/photography/flat-scanned-instax-polaroid/instax-05.jpg",
-    title: "Tree Line",
-    alt: "A tall tree line at dusk with a utility pole" },
-  { type: "photography", file: "images/photography/flat-scanned-instax-polaroid/instax-06.jpg",
-    title: "Foggy Field",
-    alt: "A pale, overexposed field with a single tree" },
+    title: "No. 4", film: "Instax & Polaroid",
+    alt: "Instant photograph by Zakk Ziegler",
+    frames: [
+      { file: "images/photography/flat-scanned-instax-polaroid/instax-01.jpg", alt: "A row of storage units under a partly cloudy sky, with a truck parked out front" },
+      { file: "images/photography/flat-scanned-instax-polaroid/instax-02.jpg", alt: "A yellow church with a tall steeple against a blue sky" },
+      { file: "images/photography/flat-scanned-instax-polaroid/instax-03.jpg", alt: "A stone mausoleum entrance with an urn inside" },
+      { file: "images/photography/flat-scanned-instax-polaroid/instax-04.jpg", alt: "A playground's monkey bars silhouetted at dusk" },
+      { file: "images/photography/flat-scanned-instax-polaroid/instax-05.jpg", alt: "A tall tree line at dusk with a utility pole" },
+      { file: "images/photography/flat-scanned-instax-polaroid/instax-06.jpg", alt: "A pale, overexposed field with a single tree" },
+    ] },
 
   // Wall art and sculpture, added 2026-09-02 -- same placeholder note.
   { type: "sculpture", file: "images/sculpture/sculpture-001.jpg", title: "No. 1", tags: ["sculpture"],
