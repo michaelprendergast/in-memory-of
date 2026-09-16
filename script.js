@@ -798,3 +798,27 @@ function initIndexPage() {
 
 window.initIndexPage = initIndexPage;
 if (document.getElementById("gallery")) initIndexPage();
+
+// Obituary page's Obituary/Tributes toggle -- just two panels and a
+// pair of buttons, so it doesn't need photos.js's filtering machinery.
+function initObituaryPage() {
+  "use strict";
+  const tabs = document.querySelectorAll("#obituary-tabs .type-chip");
+  if (!tabs.length) return;
+  const panels = {
+    obituary: document.getElementById("obituary-panel"),
+    tributes: document.getElementById("tributes-panel"),
+  };
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const key = tab.dataset.obitTab;
+      tabs.forEach((t) => t.classList.toggle("is-active", t === tab));
+      Object.keys(panels).forEach((k) => {
+        if (panels[k]) panels[k].hidden = k !== key;
+      });
+    });
+  });
+}
+
+window.initObituaryPage = initObituaryPage;
+if (document.getElementById("obituary-tabs")) initObituaryPage();

@@ -31,9 +31,11 @@
     const page = pageName(pathname);
     if (page === "gallery.html") {
       if (window.initIndexPage) window.initIndexPage();
+    } else if (page === "obituary.html") {
+      if (window.initObituaryPage) window.initObituaryPage();
     }
-    // "", "index.html" (the landing page), "about.html", and
-    // "obituary.html" are all static content -- nothing to initialize.
+    // "", "index.html" (the landing page) and "about.html" are static
+    // content -- nothing to initialize.
   }
 
   // Guards against out-of-order fetches: if two navigations are ever
