@@ -514,7 +514,7 @@ const PHOTOS = [
 
   // Photography -- scanned film rolls, added 2026-09-15.
   { type: "photography", file: "images/photography/ilford-fp4-plus-125-2014-03/frame-01.jpg",
-    title: "No. 2", date: "2014-03-28", film: "Ilford FP4 Plus 125",
+    title: "New York", date: "2014-03-28", film: "Ilford FP4 Plus 125",
     location: "New York, NY",
     alt: "Black-and-white photograph by Zakk Ziegler",
     frames: [
@@ -544,7 +544,7 @@ const PHOTOS = [
       { file: "images/photography/ilford-fp4-plus-125-2014-03/frame-24.jpg", alt: "A modern building under construction along an empty lot" },
     ] },
   { type: "photography", file: "images/photography/ilford-fp4-plus-125-2014-05/frame-01.jpg",
-    title: "No. 3", date: "2014-05-30", film: "Ilford FP4 Plus 125",
+    date: "2014-05-30", film: "Ilford FP4 Plus 125",
     alt: "Black-and-white photograph by Zakk Ziegler",
     frames: [
       { file: "images/photography/ilford-fp4-plus-125-2014-05/frame-01.jpg", alt: "A room with paintings on the wall, an easel, and a camera on a tripod" },
@@ -558,8 +558,7 @@ const PHOTOS = [
   // Photography -- scanned film rolls, added 2026-09-14. See "Film
   // rolls" above for the `frames` field reference.
   { type: "photography", file: "images/photography/ilford-fp4-plus-125-2014-12/frame-01.jpg",
-    title: "No. 1", date: "2014-12-29", film: "Ilford FP4 Plus 125",
-    note: "Shot over about three months",
+    title: "3 Month Roll", date: "2014-12-29", film: "Ilford FP4 Plus 125",
     alt: "Black-and-white photograph by Zakk Ziegler",
     frames: [
       { file: "images/photography/ilford-fp4-plus-125-2014-12/frame-01.jpg", alt: "White irises against a fence" },
@@ -580,7 +579,7 @@ const PHOTOS = [
   // 35mm roll, but grouped the same way (one `frames` set) rather than
   // as separate tiles; no per-frame titles.
   { type: "photography", file: "images/photography/flat-scanned-instax-polaroid/instax-01.jpg",
-    title: "No. 4", film: "Instax & Polaroid",
+    film: "Instax & Polaroid",
     alt: "Instant photograph by Zakk Ziegler",
     frames: [
       { file: "images/photography/flat-scanned-instax-polaroid/instax-01.jpg", alt: "A row of storage units under a partly cloudy sky, with a truck parked out front" },
