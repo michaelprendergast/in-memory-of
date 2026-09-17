@@ -158,9 +158,17 @@
     buildStrip(frames);
     titleEl.textContent = item.title || "Untitled roll";
     metaEl.textContent = [item.date, item.film, item.note].filter(Boolean).join(" · ");
-    strip.scrollLeft = 0;
     overlay.hidden = false;
     overlay.setAttribute("aria-hidden", "false");
+    // scrollTo(..., { behavior: "instant" }) rather than a plain
+    // scrollLeft assignment -- a plain assignment doesn't interrupt an
+    // in-flight smooth-scroll animation from step()/scrollToIndex(),
+    // so closing mid-animation and opening a new roll could otherwise
+    // leave the old animation still running on this same strip
+    // element, landing on the same pixel offset (i.e. the same frame
+    // index, since every strip uses the same frame width) in the roll
+    // that just opened.
+    strip.scrollTo({ left: 0, behavior: "instant" });
     document.addEventListener("keydown", onKeydown);
     updateProgress();
     closeBtn.focus();
@@ -169,6 +177,10 @@
   function close() {
     if (overlay.hidden) return;
     closeFrameLightbox();
+    // Cancel any in-flight smooth-scroll animation from step() so it
+    // doesn't keep running in the background while the overlay is
+    // hidden (see the comment in open() for why that matters).
+    strip.scrollTo({ left: strip.scrollLeft, behavior: "instant" });
     overlay.hidden = true;
     overlay.setAttribute("aria-hidden", "true");
     document.removeEventListener("keydown", onKeydown);
