@@ -55,31 +55,57 @@
   frameLightbox.setAttribute("aria-hidden", "true");
   frameLightbox.innerHTML =
     '<button class="lightbox-close" type="button" aria-label="Close">&#10005;</button>' +
+    '<button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous frame">&#8592;</button>' +
+    '<button class="lightbox-nav lightbox-next" type="button" aria-label="Next frame">&#8594;</button>' +
     '<figure class="lightbox-figure"><img src="" alt=""></figure>';
   document.body.appendChild(frameLightbox);
 
   const frameLightboxImg = frameLightbox.querySelector("img");
   const frameLightboxFigure = frameLightbox.querySelector(".lightbox-figure");
   const frameLightboxClose = frameLightbox.querySelector(".lightbox-close");
+  const frameLightboxPrev = frameLightbox.querySelector(".lightbox-prev");
+  const frameLightboxNext = frameLightbox.querySelector(".lightbox-next");
   let frameZoomed = false;
+  let frameIndex = 0;
 
-  function openFrameLightbox(img) {
-    frameLightboxImg.src = img.src;
-    frameLightboxImg.alt = img.alt;
+  // Shows a given frame index inside the already-open lightbox --
+  // wraps around at the ends and always resets zoom, same as the main
+  // gallery lightbox's own step(), so moving to a new frame doesn't
+  // require closing and reopening just to look at the next one.
+  function showFrameAt(i) {
+    const frames = framesOf(item);
+    if (!frames.length) return;
+    frameIndex = ((i % frames.length) + frames.length) % frames.length;
+    const f = frames[frameIndex];
+    frameLightboxImg.src = f.file;
+    frameLightboxImg.alt = f.alt || "";
     frameZoomed = false;
     frameLightboxFigure.classList.remove("is-zoomed");
+  }
+  function openFrameLightbox(i) {
+    showFrameAt(i);
     frameLightbox.classList.add("is-open");
     frameLightbox.setAttribute("aria-hidden", "false");
   }
   function closeFrameLightbox() {
+    if (!frameLightbox.classList.contains("is-open")) return;
     frameLightbox.classList.remove("is-open");
     frameLightbox.setAttribute("aria-hidden", "true");
+    // Keep the strip in sync with whatever frame was last viewed
+    // up close, in case the visitor paged around a lot before closing.
+    scrollToIndex(frameIndex);
+    updateProgress();
+  }
+  function stepFrame(delta) {
+    showFrameAt(frameIndex + delta);
   }
   frameLightboxImg.addEventListener("click", () => {
     frameZoomed = !frameZoomed;
     frameLightboxFigure.classList.toggle("is-zoomed", frameZoomed);
   });
   frameLightboxClose.addEventListener("click", closeFrameLightbox);
+  frameLightboxPrev.addEventListener("click", () => stepFrame(-1));
+  frameLightboxNext.addEventListener("click", () => stepFrame(1));
   frameLightbox.addEventListener("click", (e) => {
     if (e.target === frameLightbox) closeFrameLightbox();
   });
@@ -144,7 +170,7 @@
       img.src = f.file;
       img.alt = f.alt || "";
       img.loading = i === 0 ? "eager" : "lazy";
-      img.addEventListener("click", () => openFrameLightbox(img));
+      img.addEventListener("click", () => openFrameLightbox(i));
       wrap.appendChild(img);
       strip.appendChild(wrap);
     });
@@ -194,10 +220,14 @@
       else close();
       return;
     }
-    // Arrow keys page between frames -- but not while the frame
-    // lightbox has one open for a closer look, since at that point
-    // they're examining one frame, not browsing the strip.
-    if (frameLightbox.classList.contains("is-open")) return;
+    // Arrow keys page between frames -- within the frame lightbox
+    // itself when it's open (so a closer look doesn't require
+    // closing and reopening for each frame), or the strip otherwise.
+    if (frameLightbox.classList.contains("is-open")) {
+      if (e.key === "ArrowRight") stepFrame(1);
+      if (e.key === "ArrowLeft") stepFrame(-1);
+      return;
+    }
     if (e.key === "ArrowRight") step(1);
     if (e.key === "ArrowLeft") step(-1);
   }
